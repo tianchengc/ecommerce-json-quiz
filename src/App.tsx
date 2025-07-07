@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     const loadQuizData = async () => {
       try {
-        const response = await fetch('/quiz.json');
+        const response = await fetch('/quiz.json'); // replace with the path to your quiz data
         const data = await response.json();
         setQuizData(data);
       } catch (error) {
