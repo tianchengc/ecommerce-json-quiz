@@ -1,4 +1,4 @@
-# 🍵 Embedded Tea Quiz Widget
+# 🍵 Embedded Quiz Widget
 
 A lightweight, embeddable quiz component built with **React** and **TailwindCSS**. Designed to be embedded into platforms like **Wix**, **Shopify**, and **WordPress** using an `<iframe>`. The quiz loads questions, logic, and product recommendations from a static `quiz.json` configuration file.
 
@@ -6,11 +6,10 @@ A lightweight, embeddable quiz component built with **React** and **TailwindCSS*
 
 ## ✨ Features
 
-- ✅ Static quiz loaded from `data/quiz.json`
+- ✅ Static quiz loaded from `quiz.json`
 - 🧠 Supports **AND**, **OR**, and **NOT** logic between answers
 - 🛒 Displays product recommendations based on result mappings
 - 🎯 Optimized for embedding in Wix or any website via iframe
-- 💡 Styled using TailwindCSS with custom tea-themed colors
 - 📱 Fully responsive and mobile-first design
 - ⚡ Fast loading with smooth animations and transitions
 - 🔄 Progress tracking and question navigation
@@ -154,8 +153,7 @@ After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz w
   width="100%" 
   height="600" 
   style="border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" 
-  loading="lazy"
-  title="Tea Quiz Widget">
+  loading="lazy">
 </iframe>
 ```
 
@@ -182,7 +180,6 @@ After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz w
 ### Key Features
 
 - **Mobile-first responsive design**
-- **Custom tea-themed color palette**
 - **Smooth animations and transitions**
 - **Progress tracking with visual indicators**
 - **Flexible quiz logic system**
