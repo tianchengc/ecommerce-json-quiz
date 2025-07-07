@@ -1,4 +1,12 @@
 {
+  "configuration": {
+    "showFakeLoading": true,
+    "showPrice": true,
+    "welcomeTitle": "Discover Your Favourite",
+    "welcomeDescription": "Take our quick quiz to find the perfect choices for you!",
+    "welcomeWhatToExpect": "Answer a few questions about your preferences, and we'll recommend products tailored just for you.",
+    "welcomeClaimer": "No personal data is collected. Your answers are used solely to enhance your shopping experience."
+  },
   "questions": [
     {
       "id": "q1",

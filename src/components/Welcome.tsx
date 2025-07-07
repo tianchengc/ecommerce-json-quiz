@@ -1,21 +1,31 @@
 import React from 'react';
 import { Card, Button } from './UI';
 
-interface WelcomeProps {
-  onStart: () => void;
+interface WelcomeConfiguration {
+  welcomeTitle: string;
+  welcomeDescription: string;
+  welcomeWhatToExpect: string;
+  welcomeClaimer: string;
 }
 
-export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
+interface WelcomeProps {
+  onStart: () => void;
+  configuration: WelcomeConfiguration;
+}
+
+export const Welcome: React.FC<WelcomeProps> = ({ onStart, configuration }) => {
+  // Parse the welcomeWhatToExpect string into an array of lines
+  const expectationLines = configuration.welcomeWhatToExpect.split('\n').filter((line: string) => line.trim());
+
   return (
     <Card className="max-w-2xl mx-auto text-center">
       <div className="py-8">
         <div className="text-8xl mb-6">🍵</div>
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Find Your Perfect Tea
+          {configuration.welcomeTitle}
         </h1>
         <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-          Take our personalized quiz to discover teas that match your taste preferences, 
-          lifestyle, and wellness goals. Get recommendations tailored just for you.
+          {configuration.welcomeDescription}
         </p>
         
         <div className="bg-tea-50 border border-tea-200 rounded-2xl p-6 mb-8">
@@ -23,18 +33,12 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
             What to expect:
           </h2>
           <ul className="text-left text-tea-700 space-y-2">
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
-              A few quick questions about your preferences
-            </li>
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
-              Personalized product recommendations
-            </li>
-            <li className="flex items-center">
-              <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
-              Takes less than 2 minutes
-            </li>
+            {expectationLines.map((line: string, index: number) => (
+              <li key={index} className="flex items-center">
+                <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
+                {line}
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -46,7 +50,7 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
         </Button>
         
         <p className="text-sm text-gray-500 mt-6">
-          No signup required • 100% free • Instant results
+          {configuration.welcomeClaimer}
         </p>
       </div>
     </Card>

@@ -29,7 +29,17 @@ export interface QuizQuestion {
   }>;
 }
 
+export interface QuizConfiguration {
+  showFakeLoading: boolean;
+  showPrice: boolean;
+  welcomeTitle: string;
+  welcomeDescription: string;
+  welcomeWhatToExpect: string;
+  welcomeClaimer: string;
+}
+
 export interface QuizData {
+  configuration: QuizConfiguration;
   questions: QuizQuestion[];
   results: QuizResult[];
 }

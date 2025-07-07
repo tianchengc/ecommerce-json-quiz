@@ -172,8 +172,11 @@ function App() {
 
   return (
     <div className="quiz-container min-h-screen flex items-center justify-center bg-gray-50">
-      {quizState === 'welcome' && (
-        <Welcome onStart={handleStartQuiz} />
+      {quizState === 'welcome' && quizData && (
+        <Welcome 
+          onStart={handleStartQuiz} 
+          configuration={quizData.configuration}
+        />
       )}
       
       {quizState === 'quiz' && (
