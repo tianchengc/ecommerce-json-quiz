@@ -3,6 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "license": "MIT",
+  "author": "Tiancheng Chen",
+  "description": "A lightweight, embeddable tea quiz widget built with React and TailwindCSS",
+  "keywords": ["react", "quiz", "tailwindcss", "tea", "recommendation", "widget", "iframe"],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
