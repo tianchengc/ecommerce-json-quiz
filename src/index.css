@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Simple base styles */
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Custom component classes */
+.btn {
+  @apply inline-flex items-center justify-center rounded-lg px-4 py-2 text-sm font-medium transition-colors;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white hover:bg-blue-700;
+}
+
+.btn-secondary {
+  @apply bg-gray-100 text-gray-900 hover:bg-gray-200;
+}
+
+.card {
+  @apply rounded-2xl border border-gray-200 bg-white p-6 shadow-lg;
+}
+
+.quiz-container {
+  @apply max-w-2xl mx-auto p-4;
+}
+
+.question-card {
+  @apply bg-white rounded-2xl border border-gray-200 p-8 shadow-lg;
+}
+
+.option-button {
+  @apply w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200;
+}
+
+.option-button.selected {
+  @apply border-blue-500 bg-blue-50 text-blue-900;
+}
+
+.loading-spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
+}
+

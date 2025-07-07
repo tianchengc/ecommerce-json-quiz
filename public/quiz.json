@@ -1,0 +1,140 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "text": "What kind of flavors do you enjoy?",
+      "type": "multi-select",
+      "options": [
+        { "id": "floral", "text": "Floral (jasmine, rose, lavender)" },
+        { "id": "fruity", "text": "Fruity (citrus, berry, tropical)" },
+        { "id": "earthy", "text": "Earthy (mineral, woody, mossy)" },
+        { "id": "spicy", "text": "Spicy (cinnamon, ginger, cardamom)" },
+        { "id": "sweet", "text": "Sweet (vanilla, caramel, honey)" }
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "What's your primary goal for drinking tea?",
+      "type": "single-select",
+      "options": [
+        { "id": "relax", "text": "Relaxation and stress relief" },
+        { "id": "energy", "text": "Energy boost and alertness" },
+        { "id": "health", "text": "Health benefits and wellness" },
+        { "id": "taste", "text": "Simply enjoying the taste" }
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "When do you typically drink tea?",
+      "type": "multi-select",
+      "options": [
+        { "id": "morning", "text": "Morning (6-10 AM)" },
+        { "id": "afternoon", "text": "Afternoon (12-4 PM)" },
+        { "id": "evening", "text": "Evening (6-9 PM)" },
+        { "id": "night", "text": "Night (after 9 PM)" }
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "How do you prefer your tea strength?",
+      "type": "single-select",
+      "options": [
+        { "id": "light", "text": "Light and delicate" },
+        { "id": "medium", "text": "Medium strength" },
+        { "id": "strong", "text": "Strong and robust" },
+        { "id": "varies", "text": "It depends on my mood" }
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "Do you have any dietary preferences or restrictions?",
+      "type": "multi-select",
+      "options": [
+        { "id": "caffeine-free", "text": "Caffeine-free options" },
+        { "id": "organic", "text": "Organic certified" },
+        { "id": "low-caffeine", "text": "Low caffeine content" },
+        { "id": "no-restrictions", "text": "No specific restrictions" }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "productId": "oolong001",
+      "productName": "Golden Oolong",
+      "productImage": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
+      "productDescription": "A perfectly balanced oolong with floral notes and a smooth finish. Ideal for relaxation and afternoon enjoyment.",
+      "price": "$24.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["floral", "fruity"],
+        "allOf": ["relax", "afternoon"],
+        "not": ["caffeine-free"]
+      }
+    },
+    {
+      "productId": "green001",
+      "productName": "Energizing Green Tea",
+      "productImage": "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=300&h=300&fit=crop",
+      "productDescription": "A refreshing green tea blend perfect for morning energy boosts with light, grassy notes.",
+      "price": "$19.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["energy", "morning"],
+        "allOf": ["light", "health"],
+        "not": ["caffeine-free"]
+      }
+    },
+    {
+      "productId": "herbal001",
+      "productName": "Chamomile Dreams",
+      "productImage": "https://images.unsplash.com/photo-1597318378336-d4b65f04a68c?w=300&h=300&fit=crop",
+      "productDescription": "A soothing caffeine-free herbal blend with chamomile and lavender, perfect for evening relaxation.",
+      "price": "$16.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["floral", "relax"],
+        "allOf": ["caffeine-free", "evening"],
+        "not": ["energy"]
+      }
+    },
+    {
+      "productId": "black001",
+      "productName": "Royal Earl Grey",
+      "productImage": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&h=300&fit=crop",
+      "productDescription": "A classic black tea with bergamot oil, providing a strong, citrusy flavor perfect for any time of day.",
+      "price": "$22.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["fruity", "strong"],
+        "allOf": ["taste", "medium"],
+        "not": ["caffeine-free"]
+      }
+    },
+    {
+      "productId": "white001",
+      "productName": "Delicate White Peony",
+      "productImage": "https://images.unsplash.com/photo-1556881286-bcf6d3f4f9c5?w=300&h=300&fit=crop",
+      "productDescription": "A gentle white tea with subtle sweetness and floral undertones, perfect for those who prefer light teas.",
+      "price": "$34.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["sweet", "floral"],
+        "allOf": ["light", "health"],
+        "not": ["strong"]
+      }
+    },
+    {
+      "productId": "chai001",
+      "productName": "Spiced Chai Blend",
+      "productImage": "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=300&h=300&fit=crop",
+      "productDescription": "A warming blend of black tea with cinnamon, cardamom, and ginger. Perfect for cold evenings.",
+      "price": "$18.99",
+      "shopLink": "#",
+      "conditions": {
+        "anyOf": ["spicy", "sweet"],
+        "allOf": ["strong", "evening"],
+        "not": ["caffeine-free"]
+      }
+    }
+  ]
+}
