@@ -25,7 +25,7 @@ export const Welcome: React.FC<WelcomeProps> = ({ onStart }) => {
           <ul className="text-left text-tea-700 space-y-2">
             <li className="flex items-center">
               <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
-              5 quick questions about your preferences
+              A few quick questions about your preferences
             </li>
             <li className="flex items-center">
               <span className="w-2 h-2 bg-tea-500 rounded-full mr-3"></span>
