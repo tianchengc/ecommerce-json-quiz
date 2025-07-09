@@ -19,6 +19,7 @@ const defaultConfiguration: QuizConfiguration = {
   },
   resultPage: {
     showPrice: true,
+    showViewAllOptions: true,
     loadingTitle: 'Finding Your Perfect Tea...',
     loadingDescription: 'We\'re analyzing your preferences to recommend the best teas for you.',
     noMatchesTitle: 'No Perfect Matches Found',

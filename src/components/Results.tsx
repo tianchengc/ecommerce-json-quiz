@@ -48,7 +48,7 @@ export const Results: React.FC<ResultsProps> = ({
               {configuration?.retakeButtonText || "Retake Quiz"}
             </Button>
             <Button variant="outline" className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base">
-              {configuration?.browseAllButtonText || "Browse All Teas"}
+              {configuration?.browseAllButtonText || "Browse All Products"}
             </Button>
           </div>
         </div>

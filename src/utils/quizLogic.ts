@@ -42,6 +42,7 @@ export interface welcomePageConfiguration {
 
 export interface resultPageConfiguration {
   showPrice: boolean;
+  showViewAllOptions: boolean;
   loadingTitle: string;
   loadingDescription: string;
   noMatchesTitle: string;

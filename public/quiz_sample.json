@@ -1,8 +1,7 @@
 {
   "configuration": {
     "general": {
-      "showFakeLoading": true,
-      "showPrice": false
+      "showFakeLoading": true
     },
     "welcomePage": {
       "title": "Find Your Perfect Tea",
@@ -11,6 +10,8 @@
       "claimer": "No signup required • 100% free • Instant results"
     },
     "resultPage": {
+      "showPrice": false,
+      "showViewAllOptions": false,
       "loadingTitle": "Finding Your Perfect Tea...",
       "loadingDescription": "We're analyzing your preferences to recommend the best teas for you.",
       "noMatchesTitle": "No Perfect Matches Found",
