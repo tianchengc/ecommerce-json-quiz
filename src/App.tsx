@@ -258,14 +258,14 @@ function App() {
   // Show loading spinner while quiz data is being loaded
   if (!quizData) {
     return (
-      <div className="quiz-container min-h-screen flex items-center justify-center">
+      <div className="quiz-container min-h-screen flex items-center justify-center p-4 sm:p-6">
         <LoadingSpinner message="Loading quiz..." />
       </div>
     );
   }
 
   return (
-    <div className="quiz-container min-h-screen flex items-center justify-center bg-gray-50">
+    <div className="quiz-container min-h-screen flex items-center justify-center bg-gray-50 p-4 sm:p-6">
       
       {quizState === 'welcome' && quizData && (
         <Welcome 

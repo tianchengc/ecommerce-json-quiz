@@ -41,30 +41,30 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
 
   return (
     <Card className="question-card max-w-2xl mx-auto">
-      <div className="mb-6">
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-sm font-medium text-gray-500">
+      <div className="mb-4 sm:mb-6">
+        <div className="flex justify-between items-center mb-3 sm:mb-4">
+          <span className="text-xs sm:text-sm font-medium text-gray-500">
             Question {currentQuestion} of {totalQuestions}
           </span>
-          <span className="text-sm font-medium text-primary-600">
+          <span className="text-xs sm:text-sm font-medium text-primary-600">
             {Math.round((currentQuestion / totalQuestions) * 100)}% Complete
           </span>
         </div>
-        <ProgressBar current={currentQuestion} total={totalQuestions} className="mb-6" />
+        <ProgressBar current={currentQuestion} total={totalQuestions} className="mb-4 sm:mb-6" />
       </div>
 
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 leading-tight">
           {question.text}
         </h2>
         {question.type === 'multi-select' && (
-          <p className="text-sm text-gray-600 mb-4">
+          <p className="text-xs sm:text-sm text-gray-600 mb-3 sm:mb-4">
             Select all that apply
           </p>
         )}
       </div>
 
-      <div className="space-y-3 mb-8">
+      <div className="space-y-2 sm:space-y-3 mb-6 sm:mb-8">
         {question.options.map((option) => (
           <button
             key={option.id}
@@ -99,7 +99,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                   </div>
                 )}
               </div>
-              <span className="text-left font-medium text-gray-900">
+              <span className="text-left font-medium text-gray-900 text-sm sm:text-base">
                 {option.text}
               </span>
             </div>
@@ -112,7 +112,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           variant="outline"
           onClick={onPrevious}
           disabled={!canGoPrevious}
-          className="px-6 py-3"
+          className="px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-base"
         >
           Previous
         </Button>
@@ -120,7 +120,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         <Button
           onClick={onNext}
           disabled={!canGoNext}
-          className="px-8 py-3"
+          className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
         >
           {currentQuestion === totalQuestions ? 'Get Results' : 'Next'}
         </Button>

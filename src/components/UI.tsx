@@ -10,9 +10,9 @@ export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   className = "" 
 }) => {
   return (
-    <div className={`flex flex-col items-center justify-center p-8 ${className}`}>
-      <div className="loading-spinner mb-4"></div>
-      <p className="text-gray-600 text-sm font-medium animate-pulse">{message}</p>
+    <div className={`flex flex-col items-center justify-center p-6 sm:p-8 ${className}`}>
+      <div className="loading-spinner mb-3 sm:mb-4"></div>
+      <p className="text-gray-600 text-xs sm:text-sm font-medium animate-pulse">{message}</p>
     </div>
   );
 };
