@@ -1,0 +1,14 @@
+# Add to .dockerignore
+node_modules
+.git
+.gitignore
+README.md
+Dockerfile
+.dockerignore
+npm-debug.log
+.env
+.env.local
+.env.production
+dist
+coverage
+.nyc_output

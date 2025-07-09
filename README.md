@@ -2,6 +2,23 @@
 
 A lightweight, embeddable quiz component built with **React** and **TailwindCSS**. Designed to be embedded into platforms like **Wix**, **Shopify**, and **WordPress** using an `<iframe>`. The quiz loads questions, logic, and product recommendations from a static `quiz.json` configuration file.
 
+## 🚀 Quick Start with Docker
+
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd ecommerce-json-quiz
+
+# 2. Build and run with Docker
+docker build -t quiz-widget .
+docker run -d --name my-quiz -p 3000:80 \
+  -v $(pwd)/public/quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  quiz-widget
+
+# 3. Open http://localhost:3000 in your browser
+# 4. Edit quiz.json and see changes instantly!
+```
+
 ---
 
 ## ✨ Features
@@ -33,6 +50,10 @@ A lightweight, embeddable quiz component built with **React** and **TailwindCSS*
 │   │   └── quizLogic.ts        # Quiz condition evaluation logic
 │   ├── index.css               # TailwindCSS styles and custom components
 │   └── main.tsx                # React app entry point
+├── Dockerfile                  # Docker container configuration
+├── docker-compose.yml          # Docker Compose configuration
+├── nginx.conf                  # Nginx server configuration
+├── .dockerignore               # Docker ignore file
 ├── tailwind.config.js          # TailwindCSS configuration with custom theme
 ├── postcss.config.js           # PostCSS configuration
 ├── vite.config.ts              # Vite build configuration
@@ -104,7 +125,7 @@ The quiz uses a flexible condition system that supports:
 - Node.js 18+ (required for Vite 7.x)
 - npm or yarn
 
-### Installation
+### Development Setup
 
 ```bash
 # Install dependencies
@@ -118,6 +139,111 @@ npm run build
 
 # Preview production build
 npm run preview
+```
+
+### 🐳 Docker Deployment
+
+The quiz widget can be easily deployed using Docker with your custom quiz configuration.
+
+#### Quick Start with Docker
+
+```bash
+# Build the Docker image
+docker build -t quiz-widget .
+
+# Run with your custom quiz.json file
+docker run -d \
+  --name quiz-widget \
+  -p 3000:80 \
+  -v $(pwd)/quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  quiz-widget
+```
+
+#### Using Docker Compose (Recommended)
+
+```bash
+# Run with docker-compose
+docker-compose up -d
+
+# Or run in development mode with hot reload
+docker-compose --profile dev up -d quiz-widget-dev
+```
+
+#### Custom Quiz Configuration
+
+1. **Create your quiz.json file** based on the example in `public/quiz.json`
+2. **Mount it as a volume** when running the container:
+
+```bash
+# Using absolute path
+docker run -d \
+  --name my-quiz \
+  -p 3000:80 \
+  -v /path/to/your/quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  quiz-widget
+
+# Using relative path (current directory)
+docker run -d \
+  --name my-quiz \
+  -p 3000:80 \
+  -v $(pwd)/my-custom-quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  quiz-widget
+```
+
+#### Live Quiz Updates
+
+To update your quiz configuration without rebuilding:
+
+1. **Edit your quiz.json file**
+2. **The changes will be reflected immediately** (no container restart needed)
+3. **Clear browser cache** if changes don't appear
+
+```bash
+# Example: Update quiz and verify
+echo '{"questions": [...], "results": [...]}' > my-quiz.json
+# Visit http://localhost:3000 to see changes
+```
+
+#### Production Deployment
+
+For production deployment, you can use any container orchestration platform:
+
+```bash
+# Deploy to production server
+docker run -d \
+  --name quiz-widget-prod \
+  -p 80:80 \
+  -v /opt/quiz-configs/my-quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  --restart unless-stopped \
+  quiz-widget
+```
+
+#### Environment Variables
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `NODE_ENV` | Environment mode | `production` |
+
+#### Docker Commands Reference
+
+```bash
+# Build image
+docker build -t quiz-widget .
+
+# Run container
+docker run -d --name quiz-widget -p 3000:80 quiz-widget
+
+# Stop container
+docker stop quiz-widget
+
+# Remove container
+docker rm quiz-widget
+
+# View logs
+docker logs quiz-widget
+
+# Access container shell
+docker exec -it quiz-widget sh
 ```
 
 ---
@@ -145,16 +271,49 @@ Edit `public/quiz.json` to customize:
 
 ## 🔌 Embed in Wix / Shopify / WordPress
 
-After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz with:
+### Hosted Deployment
+
+After deploying with Docker (e.g., on your server, VPS, or cloud platform), embed the quiz with:
 
 ```html
 <iframe 
-  src="https://your-domain.com"
+  src="https://your-domain.com:3000"
   width="100%" 
   height="600" 
   style="border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" 
   loading="lazy">
 </iframe>
+```
+
+### Docker Deployment Options
+
+#### Option 1: VPS/Server Deployment
+```bash
+# On your server
+docker run -d \
+  --name quiz-widget \
+  -p 80:80 \
+  -v /path/to/your/quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  --restart unless-stopped \
+  quiz-widget
+
+# Then embed with your domain
+# <iframe src="https://yourdomain.com" ...>
+```
+
+#### Option 2: Cloud Platform (AWS/GCP/Azure)
+Deploy using your cloud provider's container service and use the provided URL.
+
+#### Option 3: Docker Hub
+```bash
+# Push to Docker Hub (optional)
+docker tag quiz-widget yourusername/quiz-widget
+docker push yourusername/quiz-widget
+
+# Others can then deploy with:
+docker run -d -p 3000:80 \
+  -v ./their-quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  yourusername/quiz-widget
 ```
 
 ### Integration Tips
@@ -163,6 +322,7 @@ After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz w
 - **Mobile-first**: The quiz is optimized for mobile devices
 - **Performance**: Lazy loading is built-in for better performance
 - **Accessibility**: Proper ARIA labels and keyboard navigation
+- **Custom Domain**: Point your domain to the Docker container for cleaner URLs
 
 > ✅ **Tip**: Use `postMessage` API for dynamic resizing or communication between iframe and host page (optional).
 
@@ -176,6 +336,8 @@ After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz w
 - **Vite 7.x**: Fast build tool and dev server
 - **TailwindCSS 4.x**: Utility-first CSS framework
 - **TypeScript**: Full type safety with project references
+- **Docker**: Containerized deployment with Nginx
+- **Nginx**: High-performance web server for production
 
 ### Key Features
 
@@ -186,6 +348,22 @@ After deploying (e.g., to Vercel, Netlify, or your own server), embed the quiz w
 - **Beautiful product recommendation cards**
 - **TypeScript for type safety**
 - **Modern build tools and hot reloading**
+- **Docker containerization for easy deployment**
+- **Live configuration updates without rebuilding**
+- **Production-ready Nginx configuration**
+
+### Deployment Architecture
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   quiz.json     │───▶│  Docker Container│───▶│   Nginx Server  │
+│ (Configuration) │    │                  │    │  (Port 80/443)  │
+└─────────────────┘    │  ┌─────────────┐ │    └─────────────────┘
+                       │  │ React App   │ │
+                       │  │ (Built)     │ │
+                       │  └─────────────┘ │
+                       └──────────────────┘
+```
 
 ---
 
