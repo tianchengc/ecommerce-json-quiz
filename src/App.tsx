@@ -119,6 +119,12 @@ function App() {
     loadQuizData();
   }, []);
 
+  useEffect(() => {
+    if (isUsingSampleData) {
+      console.log('Using sample data for quiz: ', isUsingSampleData);
+    }
+  }, [isUsingSampleData]);
+
   const handleStartQuiz = () => {
     setQuizState('quiz');
     setCurrentQuestionIndex(0);
