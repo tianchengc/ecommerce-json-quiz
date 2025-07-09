@@ -23,7 +23,7 @@ docker run -d --name my-quiz -p 3000:80 \
 
 ## ✨ Features
 
-- ✅ Static quiz loaded from `quiz.json`
+- ✅ **Automatic Fallback**: Uses `quiz_sample.json` if `quiz.json` is not found
 - 🧠 Supports **AND**, **OR**, and **NOT** logic between answers
 - 🛒 Displays product recommendations based on result mappings
 - 🎯 Optimized for embedding in Wix or any website via iframe
@@ -38,9 +38,10 @@ docker run -d --name my-quiz -p 3000:80 \
 
 ```
 ├── public/
-│   └── quiz.json               # Quiz configuration and product data
+│   ├── quiz.json               # Main quiz configuration (user-provided)
+│   └── quiz_sample.json        # Sample/fallback quiz data
 ├── src/
-│   ├── App.tsx                 # Main quiz application component
+│   ├── App.tsx                 # Main quiz application with fallback logic
 │   ├── components/             # Reusable UI components
 │   │   ├── UI.tsx              # Base UI components (Button, Card, etc.)
 │   │   ├── Welcome.tsx         # Welcome screen component
@@ -61,6 +62,38 @@ docker run -d --name my-quiz -p 3000:80 \
 ├── tsconfig.app.json           # TypeScript config for app code
 ├── tsconfig.node.json          # TypeScript config for build tools
 └── package.json                # Project dependencies
+```
+
+---
+
+## 🔄 Configuration Fallback System
+
+The quiz widget includes a robust fallback system to ensure it always works:
+
+### File Priority:
+1. **Primary**: Attempts to load `/quiz.json` (your custom quiz configuration)
+2. **Fallback**: If not found, automatically loads `/quiz_sample.json` (built-in sample)
+3. **Error Handling**: If both fail, shows an error message
+
+### Visual Indicators:
+- When using sample data, a **yellow notification** appears: `⚠️ Using sample data (quiz_sample.json)`
+- Console logs show which file was loaded for debugging
+
+### Use Cases:
+- **Development**: Start coding immediately without creating quiz.json
+- **Testing**: Use sample data to test the quiz functionality
+- **Production**: Ensures the quiz works even if custom configuration is missing
+- **Deployment**: Run container without mounting quiz.json volume
+
+### Example Usage:
+```bash
+# Run with custom quiz.json
+docker run -d -p 3000:80 \
+  -v $(pwd)/my-quiz.json:/usr/share/nginx/html/quiz.json:ro \
+  quiz-widget
+
+# Run with sample data (no volume needed)
+docker run -d -p 3000:80 quiz-widget
 ```
 
 ---

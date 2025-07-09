@@ -1,147 +1,198 @@
 {
   "configuration": {
     "showFakeLoading": true,
-    "showPrice": true,
-    "welcomeTitle": "Discover Your Favourite",
-    "welcomeDescription": "Take our quick quiz to find the perfect choices for you!",
-    "welcomeWhatToExpect": "Answer a few questions about your preferences, and we'll recommend products tailored just for you.",
-    "welcomeClaimer": "No personal data is collected. Your answers are used solely to enhance your shopping experience."
+    "showPrice": false,
+    "welcomeTitle": "Find Your Perfect Tea",
+    "welcomeDescription": "Take our personalized quiz to discover teas that match your taste preferences, lifestyle, and wellness goals. Get recommendations tailored just for you.",
+    "welcomeWhatToExpect": "A few quick questions about your preferences\nPersonalized product recommendations\nTakes less than 2 minutes",
+    "welcomeClaimer": "No signup required • 100% free • Instant results"
   },
   "questions": [
     {
       "id": "q1",
-      "text": "What kind of flavors do you enjoy?",
+      "text": "What brings you here today?",
       "type": "multi-select",
       "options": [
-        { "id": "floral", "text": "Floral (jasmine, rose, lavender)" },
-        { "id": "fruity", "text": "Fruity (citrus, berry, tropical)" },
-        { "id": "earthy", "text": "Earthy (mineral, woody, mossy)" },
-        { "id": "spicy", "text": "Spicy (cinnamon, ginger, cardamom)" },
-        { "id": "sweet", "text": "Sweet (vanilla, caramel, honey)" }
+        { "id": "calming", "text": "🧘 I want something calming or to unwind" },
+        { "id": "energy", "text": "💪 I need energy or focus throughout the day" },
+        { "id": "explore", "text": "🫖 I’m just curious and want to explore tea" },
+        { "id": "gift", "text": "🎁 I’m looking for a gift for someone" },
+        { "id": "healthy", "text": "🌿 I want something healthy or detoxifying" }
       ]
     },
     {
       "id": "q2",
       "text": "What's your primary goal for drinking tea?",
-      "type": "single-select",
+      "type": "multi-select",
       "options": [
-        { "id": "relax", "text": "Relaxation and stress relief" },
-        { "id": "energy", "text": "Energy boost and alertness" },
-        { "id": "health", "text": "Health benefits and wellness" },
-        { "id": "taste", "text": "Simply enjoying the taste" }
+        { "id": "bold", "text": "🍫 Bold and earthy (like dark chocolate or red wine)" },
+        { "id": "light", "text": "🌸 Light and floral (like jasmine or white wine)" },
+        { "id": "sweet", "text": "🍑 Fruity and sweet (like peach, berries, or cider)" },
+        { "id": "nutty", "text": "🍞 Roasted or nutty (like coffee or toasted grains)" },
+        { "id": "fresh", "text": "🍋 Citrusy and fresh (like lemon or sparkling drinks)" }
       ]
     },
     {
       "id": "q3",
-      "text": "When do you typically drink tea?",
-      "type": "multi-select",
+      "text": "Do you prefer caffeine?",
+      "type": "single-select",
       "options": [
-        { "id": "morning", "text": "Morning (6-10 AM)" },
-        { "id": "afternoon", "text": "Afternoon (12-4 PM)" },
-        { "id": "evening", "text": "Evening (6-9 PM)" },
-        { "id": "night", "text": "Night (after 9 PM)" }
+        { "id": "caffeine", "text": "Yes, I need my daily boost ☕" },
+        { "id": "light-caffeine", "text": "Just a little – I’m sensitive to caffeine" },
+        { "id": "decaffeine", "text": "No thanks – looking for a caffeine-free option 🌙" }
       ]
     },
     {
       "id": "q4",
-      "text": "How do you prefer your tea strength?",
+      "text": "How adventurous are you feeling?",
       "type": "single-select",
       "options": [
-        { "id": "light", "text": "Light and delicate" },
-        { "id": "medium", "text": "Medium strength" },
-        { "id": "strong", "text": "Strong and robust" },
-        { "id": "varies", "text": "It depends on my mood" }
-      ]
-    },
-    {
-      "id": "q5",
-      "text": "Do you have any dietary preferences or restrictions?",
-      "type": "multi-select",
-      "options": [
-        { "id": "caffeine-free", "text": "Caffeine-free options" },
-        { "id": "organic", "text": "Organic certified" },
-        { "id": "low-caffeine", "text": "Low caffeine content" },
-        { "id": "no-restrictions", "text": "No specific restrictions" }
+        { "id": "classic", "text": "😌 Keep it classic and familiar" },
+        { "id": "different", "text": "🤔 I’m open to something different" },
+        { "id": "new", "text": "🧭 Surprise me — I’m ready to discover new things!" }
       ]
     }
   ],
   "results": [
     {
-      "productId": "oolong001",
-      "productName": "Golden Oolong",
-      "productImage": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
-      "productDescription": "A perfectly balanced oolong with floral notes and a smooth finish. Ideal for relaxation and afternoon enjoyment.",
-      "price": "$24.99",
-      "shopLink": "#",
+      "productId": "rosy-bloom-gift-set",
+      "productName": "Rosy Bloom Gift Set",
+      "productImage": "https://static.wixstatic.com/media/1369ca_4bee2f1a669a4bce9102fb653155a49c~mv2.jpeg/v1/fill/w_880,h_1500,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1369ca_4bee2f1a669a4bce9102fb653155a49c~mv2.jpeg",
+      "productDescription": "A beautiful gift set featuring our finest rose teas. Perfect for relaxation and unwinding with caffeine-free rose blends that offer floral, calming properties.",
+      "price": "$45.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/crimson-glory-roses",
       "conditions": {
-        "anyOf": ["floral", "fruity"],
-        "allOf": ["relax", "afternoon"],
-        "not": ["caffeine-free"]
-      }
-    },
-    {
-      "productId": "green001",
-      "productName": "Energizing Green Tea",
-      "productImage": "https://images.unsplash.com/photo-1627435601361-ec25f5b1d0e5?w=300&h=300&fit=crop",
-      "productDescription": "A refreshing green tea blend perfect for morning energy boosts with light, grassy notes.",
-      "price": "$19.99",
-      "shopLink": "#",
-      "conditions": {
-        "anyOf": ["energy", "morning"],
-        "allOf": ["light", "health"],
-        "not": ["caffeine-free"]
-      }
-    },
-    {
-      "productId": "herbal001",
-      "productName": "Chamomile Dreams",
-      "productImage": "https://images.unsplash.com/photo-1597318378336-d4b65f04a68c?w=300&h=300&fit=crop",
-      "productDescription": "A soothing caffeine-free herbal blend with chamomile and lavender, perfect for evening relaxation.",
-      "price": "$16.99",
-      "shopLink": "#",
-      "conditions": {
-        "anyOf": ["floral", "relax"],
-        "allOf": ["caffeine-free", "evening"],
+        "anyOf": ["calming", "gift", "light"],
+        "allOf": ["decaffeine"],
         "not": ["energy"]
       }
     },
     {
-      "productId": "black001",
-      "productName": "Royal Earl Grey",
-      "productImage": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300&h=300&fit=crop",
-      "productDescription": "A classic black tea with bergamot oil, providing a strong, citrusy flavor perfect for any time of day.",
-      "price": "$22.99",
-      "shopLink": "#",
+      "productId": "golden-edge-rose-bud",
+      "productName": "Golden Edge Rose Bud",
+      "productImage": "https://static.wixstatic.com/media/66268d_5eadb6ccf4db479b901544e2a4b45d3c~mv2.png/v1/fill/w_884,h_663,al_c,q_90,enc_avif,quality_auto/66268d_5eadb6ccf4db479b901544e2a4b45d3c~mv2.png",
+      "productDescription": "Premium dried rose buds with a perfumy, rosy fragrance. Completely caffeine-free and perfect for relaxation and stress relief.",
+      "price": "$28.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/golden-edge-rose-bud",
       "conditions": {
-        "anyOf": ["fruity", "strong"],
-        "allOf": ["taste", "medium"],
-        "not": ["caffeine-free"]
+        "anyOf": ["calming", "sweet", "light"],
+        "allOf": ["decaffeine"],
+        "not": ["energy", "bold"]
       }
     },
     {
-      "productId": "white001",
-      "productName": "Delicate White Peony",
-      "productImage": "https://images.unsplash.com/photo-1556881286-bcf6d3f4f9c5?w=300&h=300&fit=crop",
-      "productDescription": "A gentle white tea with subtle sweetness and floral undertones, perfect for those who prefer light teas.",
-      "price": "$34.99",
-      "shopLink": "#",
+      "productId": "golden-silk-chrysanthemum",
+      "productName": "Golden Silk Chrysanthemum",
+      "productImage": "https://static.wixstatic.com/media/66268d_8a428a0d78a740f4a6f976fd50554689~mv2.jpg/v1/fill/w_573,h_868,al_c,q_85,enc_avif,quality_auto/66268d_8a428a0d78a740f4a6f976fd50554689~mv2.jpg",
+      "productDescription": "Delicate chrysanthemum flowers offering floral sweetness and caffeine-free refreshment. Known for its cooling properties and health benefits.",
+      "price": "$22.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/golden-royal-chrysanthemum",
       "conditions": {
-        "anyOf": ["sweet", "floral"],
-        "allOf": ["light", "health"],
-        "not": ["strong"]
+        "anyOf": ["healthy", "sweet", "light", "calming"],
+        "allOf": ["decaffeine"],
+        "not": ["bold", "energy"]
       }
     },
     {
-      "productId": "chai001",
-      "productName": "Spiced Chai Blend",
-      "productImage": "https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=300&h=300&fit=crop",
-      "productDescription": "A warming blend of black tea with cinnamon, cardamom, and ginger. Perfect for cold evenings.",
-      "price": "$18.99",
-      "shopLink": "#",
+      "productId": "honey-orchid-dan-cong-oolong",
+      "productName": "Honey Orchid Dan Cong Oolong",
+      "productImage": "https://static.wixstatic.com/media/66268d_89af7a0c12f2466098ae53e573dcfa85~mv2.jpg/v1/fill/w_691,h_1047,al_c,q_85,enc_avif,quality_auto/66268d_89af7a0c12f2466098ae53e573dcfa85~mv2.jpg",
+      "productDescription": "An exquisite oolong with natural honey sweetness, floral notes, and fruity undertones. Medium caffeine content perfect for energy and exploration.",
+      "price": "$68.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/honey-orchid-dan-cong-oolong-rose",
       "conditions": {
-        "anyOf": ["spicy", "sweet"],
-        "allOf": ["strong", "evening"],
-        "not": ["caffeine-free"]
+        "anyOf": ["sweet", "explore", "new"],
+        "allOf": ["caffeine"],
+        "not": ["decaffeine"]
+      }
+    },
+    {
+      "productId": "keemun-black-tea",
+      "productName": "Keemun Black Tea",
+      "productImage": "https://static.wixstatic.com/media/1369ca_c83288d7070b4c85b9f84a96829ffb7a~mv2.jpg/v1/fill/w_528,h_600,al_c,lg_1,q_80,enc_avif,quality_auto/1369ca_c83288d7070b4c85b9f84a96829ffb7a~mv2.jpg",
+      "productDescription": "A classic, rich and aromatic black tea with full caffeine content. Perfect for energy boosts and those who prefer bold, traditional flavors.",
+      "price": "$25.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/keemun-black-tea",
+      "conditions": {
+        "anyOf": ["energy", "bold", "classic"],
+        "allOf": ["caffeine"],
+        "not": ["light", "decaffeine"]
+      }
+    },
+    {
+      "productId": "osmanthus-keemun-black-tea",
+      "productName": "Osmanthus Keemun Black Tea",
+      "productImage": "https://static.wixstatic.com/media/1369ca_a8fc878939f94459ba55aaab41219f47~mv2.jpg/v1/fill/w_661,h_500,al_c,q_80,enc_avif,quality_auto/1369ca_a8fc878939f94459ba55aaab41219f47~mv2.jpg",
+      "productDescription": "Rich, smooth black tea blended with fragrant osmanthus flowers. Offers mellow sweetness with full caffeine for energy and a touch of floral complexity.",
+      "price": "$35.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/osmanthus-keemun-black-tea",
+      "conditions": {
+        "anyOf": ["energy", "sweet", "different"],
+        "allOf": ["caffeine"],
+        "not": ["decaffeine", "light"]
+      }
+    },
+    {
+      "productId": "jasmine-gift-set",
+      "productName": "Jasmine Gift Set",
+      "productImage": "https://static.wixstatic.com/media/66268d_8867b1782d134a9dbd5bcc01ee9f2f0b~mv2.jpg/v1/fill/w_880,h_1000,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/66268d_8867b1782d134a9dbd5bcc01ee9f2f0b~mv2.jpg",
+      "productDescription": "An elegant gift set featuring our finest jasmine teas. Light, floral, and refreshing with moderate caffeine. Perfect for gifting to tea enthusiasts.",
+      "price": "$42.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/jasmine-tea-lover-s-set-discover-exquisite-varieties",
+      "conditions": {
+        "anyOf": ["gift", "light", "fresh", "explore"],
+        "allOf": ["light-caffeine"],
+        "not": ["bold", "decaffeine"]
+      }
+    },
+    {
+      "productId": "snow-jasmine",
+      "productName": "Snow Jasmine",
+      "productImage": "https://static.wixstatic.com/media/66268d_1d3272b9077640218ec09770a0f60369~mv2.jpg/v1/fill/w_880,h_1334,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/66268d_1d3272b9077640218ec09770a0f60369~mv2.jpg",
+      "productDescription": "Delicate jasmine green tea with smooth, sweet characteristics and light caffeine. Perfect for those sensitive to caffeine who still want a gentle boost.",
+      "price": "$32.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/snow-jasmine",
+      "conditions": {
+        "anyOf": ["light", "sweet", "healthy"],
+        "allOf": ["light-caffeine"],
+        "not": ["bold", "decaffeine"]
+      }
+    },
+    {
+      "productId": "taiping-houkui-green",
+      "productName": "Taiping Houkui Green",
+      "productImage": "https://static.wixstatic.com/media/1369ca_30af7e18589b449eb89b1e923b909f7b~mv2.jpeg/v1/fill/w_339,h_256,al_c,lg_1,q_80,enc_avif,quality_auto/1369ca_30af7e18589b449eb89b1e923b909f7b~mv2.jpeg",
+      "productDescription": "A refreshing and light green tea with clean, crisp flavors. Contains natural caffeine and is perfect for health-conscious tea drinkers.",
+      "price": "$45.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/taiping-houkui-green-tea-%E5%A4%AA%E5%B9%B3%E7%8C%B4%E9%AD%81",
+      "conditions": {
+        "anyOf": ["healthy", "fresh", "light", "classic"],
+        "allOf": ["caffeine"],
+        "not": ["bold", "decaffeine"]
+      }
+    },
+    {
+      "productId": "honey-aroma-black-tea",
+      "productName": "Honey Aroma Black Tea",
+      "productImage": "https://static.wixstatic.com/media/1369ca_1f6fcdf568fc46e5bb8f7e5abefafde5~mv2.jpeg/v1/fill/w_880,h_1000,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/1369ca_1f6fcdf568fc46e5bb8f7e5abefafde5~mv2.jpeg",
+      "productDescription": "A distinctive black tea with natural honey aroma, fruity and floral notes. Medium caffeine content perfect for afternoon energy with complex flavors.",
+      "price": "$38.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/honey-aroma-black-tea-%E8%9C%9C%E9%A6%99%E6%BB%87%E7%BA%A2",
+      "conditions": {
+        "anyOf": ["sweet", "energy", "different", "fresh"],
+        "allOf": ["caffeine"],
+        "not": ["decaffeine"]
+      }
+    },
+    {
+      "productId": "default-recommendation",
+      "productName": "Jasmine Jade Dew",
+      "productImage": "https://static.wixstatic.com/media/66268d_1f9f3d6ccb084a23bf628a0f2757a741~mv2.png/v1/fill/w_741,h_842,al_c,q_90,enc_avif,quality_auto/66268d_1f9f3d6ccb084a23bf628a0f2757a741~mv2.png",
+      "productDescription": "One of our most popular tea! A smooth, fresh jasmine green tea with sweet undertones and light caffeine. Perfect for beginners and tea lovers alike.",
+      "price": "$28.00",
+      "shopLink": "https://www.chadynasty.ca/product-page/jasmine-jade-dew-%E5%8D%95%E8%8A%BD%E7%8E%89%E8%9E%BA",
+      "conditions": {
+        "anyOf": ["*"]
       }
     }
   ]

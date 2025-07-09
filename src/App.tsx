@@ -23,16 +23,96 @@ function App() {
   const [answers, setAnswers] = useState<QuizAnswer[]>([]);
   const [results, setResults] = useState<QuizResult[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isUsingSampleData, setIsUsingSampleData] = useState(false);
 
   // Load quiz data on component mount
   useEffect(() => {
     const loadQuizData = async () => {
+      let finalData = null;
+      let usingFallback = false;
+
+      // Helper function to try loading and parsing a JSON file
+      const tryLoadJson = async (url: string): Promise<QuizData | null> => {
+        try {
+          const response = await fetch(url);
+          
+          if (!response.ok) {
+            console.warn(`${url} failed with status ${response.status}`);
+            return null;
+          }
+
+          // Try to parse as JSON
+          const data = await response.json();
+          
+          // Validate the data structure
+          if (!data.questions || !data.results || !data.configuration) {
+            console.warn(`${url} has invalid data structure`);
+            return null;
+          }
+
+          return data;
+        } catch (error) {
+          console.warn(`Failed to load or parse ${url}:`, error);
+          return null;
+        }
+      };
+
       try {
-        const response = await fetch('/quiz.json'); // replace with the path to your quiz data
-        const data = await response.json();
-        setQuizData(data);
+        console.log('Attempting to load quiz.json...');
+        
+        // First, try to load the main quiz.json
+        finalData = await tryLoadJson('/quiz.json');
+        
+        if (!finalData) {
+          console.warn('quiz.json not available, falling back to quiz_sample.json');
+          
+          // If main quiz.json fails, try sample
+          finalData = await tryLoadJson('/quiz_sample.json');
+          usingFallback = true;
+          
+          if (!finalData) {
+            throw new Error('Both quiz.json and quiz_sample.json failed to load or are invalid');
+          }
+          
+          console.log('Successfully loaded quiz_sample.json');
+        } else {
+          console.log('Successfully loaded quiz.json');
+        }
+        
+        setQuizData(finalData);
+        setIsUsingSampleData(usingFallback);
+        
       } catch (error) {
         console.error('Failed to load quiz data:', error);
+        
+        // Provide fallback with default configuration
+        console.warn('Using fallback configuration due to load failure');
+        setQuizData({
+          configuration: defaultConfiguration,
+          questions: [
+            {
+              id: "fallback-q1",
+              text: "Quiz configuration failed to load. Would you like to retry?",
+              type: "single-select",
+              options: [
+                { id: "retry", text: "Refresh page to retry" },
+                { id: "continue", text: "Continue with demo" }
+              ]
+            }
+          ],
+          results: [
+            {
+              productId: "fallback-product",
+              productName: "Configuration Error",
+              productImage: "",
+              productDescription: "Unable to load quiz configuration. Please check your setup.",
+              price: "N/A",
+              shopLink: "#",
+              conditions: { anyOf: ["*"] }
+            }
+          ]
+        });
+        setIsUsingSampleData(true);
       }
     };
 
@@ -180,6 +260,7 @@ function App() {
 
   return (
     <div className="quiz-container min-h-screen flex items-center justify-center bg-gray-50">
+      
       {quizState === 'welcome' && quizData && (
         <Welcome 
           onStart={handleStartQuiz} 
