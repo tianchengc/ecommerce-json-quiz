@@ -3,10 +3,18 @@ import { Welcome } from './components/Welcome';
 import { QuestionCard } from './components/QuestionCard';
 import { Results } from './components/Results';
 import { LoadingSpinner } from './components/UI';
-import type { QuizData, QuizAnswer, QuizResult } from './utils/quizLogic';
+import type { QuizData, QuizAnswer, QuizResult, QuizConfiguration } from './utils/quizLogic';
 import { getRecommendations, validateQuizAnswer, simulateLoading } from './utils/quizLogic';
 
 type QuizState = 'welcome' | 'quiz' | 'loading' | 'results';
+const defaultConfiguration: QuizConfiguration = {
+  showFakeLoading: true,
+  showPrice: true,
+  welcomeTitle: 'Find Your Perfect Tea',
+  welcomeDescription: 'Answer a few questions to find the best teas for you.',
+  welcomeWhatToExpect: 'You will answer questions about your tea preferences.\nGet personalized recommendations based on your answers.\nEnjoy discovering new teas!',
+  welcomeClaimer: 'This quiz is for entertainment purposes only. Results may vary.',
+};
 
 function App() {
   const [quizData, setQuizData] = useState<QuizData | null>(null);
@@ -204,6 +212,7 @@ function App() {
       {quizState === 'results' && (
         <Results 
           results={results} 
+          configuration={quizData.configuration || defaultConfiguration}
           onRestart={handleRestartQuiz} 
           loading={false}
         />

@@ -1,18 +1,21 @@
 import React from 'react';
-import type { QuizResult } from '../utils/quizLogic';
+import type { QuizConfiguration, QuizResult } from '../utils/quizLogic';
 import { Card, Button } from './UI';
 
 interface ResultsProps {
   results: QuizResult[];
   onRestart: () => void;
   loading?: boolean;
+  configuration?: QuizConfiguration;
 }
 
 export const Results: React.FC<ResultsProps> = ({ 
   results, 
   onRestart, 
-  loading = false 
+  loading = false,
+  configuration 
 }) => {
+
   if (loading) {
     return (
       <Card className="max-w-2xl mx-auto text-center">
@@ -102,7 +105,7 @@ export const Results: React.FC<ResultsProps> = ({
               )}
               
               <div className="flex items-center justify-between pt-4">
-                {result.price && (
+                {result.price && configuration?.showPrice && (
                   <span className="text-2xl font-bold text-primary-600">
                     {result.price}
                   </span>
