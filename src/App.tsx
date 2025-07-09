@@ -8,12 +8,29 @@ import { getRecommendations, validateQuizAnswer, simulateLoading } from './utils
 
 type QuizState = 'welcome' | 'quiz' | 'loading' | 'results';
 const defaultConfiguration: QuizConfiguration = {
-  showFakeLoading: true,
-  showPrice: true,
-  welcomeTitle: 'Find Your Perfect Tea',
-  welcomeDescription: 'Answer a few questions to find the best teas for you.',
-  welcomeWhatToExpect: 'You will answer questions about your tea preferences.\nGet personalized recommendations based on your answers.\nEnjoy discovering new teas!',
-  welcomeClaimer: 'This quiz is for entertainment purposes only. Results may vary.',
+  general: {
+    showFakeLoading: true,
+  },
+  welcomePage: {
+    title: 'Find Your Perfect Tea',
+    description: 'Answer a few questions to find the best teas for you.',
+    whatToExpect: 'You will answer questions about your tea preferences.\nGet personalized recommendations based on your answers.\nEnjoy discovering new teas!',
+    claimer: 'This quiz is for entertainment purposes only. Results may vary.'
+  },
+  resultPage: {
+    showPrice: true,
+    loadingTitle: 'Finding Your Perfect Tea...',
+    loadingDescription: 'We\'re analyzing your preferences to recommend the best teas for you.',
+    noMatchesTitle: 'No Perfect Matches Found',
+    noMatchesDescription: 'We couldn\'t find teas that match your specific preferences. Try adjusting your answers or explore our full collection.',
+    successTitle: 'Your Perfect Tea',
+    successDescription: 'Based on your preferences, we found {count} perfect tea{plural} for you.',
+    bestMatchLabel: 'Best Match',
+    retakeButtonText: 'Retake Quiz',
+    browseAllButtonText: 'Browse All Teas',
+    shopNowButtonText: 'Shop Now',
+    takeAgainButtonText: 'Take Quiz Again'
+  }
 };
 
 function App() {
@@ -203,8 +220,10 @@ function App() {
       setQuizState('loading');
       setLoading(true);
       
-      // Simulate loading time
-      await simulateLoading(2000);
+      // Simulate loading time if enabled
+      if (quizData.configuration?.general?.showFakeLoading) {
+        await simulateLoading(2000);
+      }
       
       const recommendations = getRecommendations(quizData, answers, 6);
       setResults(recommendations);
@@ -270,7 +289,7 @@ function App() {
       {quizState === 'welcome' && quizData && (
         <Welcome 
           onStart={handleStartQuiz} 
-          configuration={quizData.configuration}
+          configuration={quizData.configuration.welcomePage}
         />
       )}
       
@@ -299,7 +318,7 @@ function App() {
       {quizState === 'results' && (
         <Results 
           results={results} 
-          configuration={quizData.configuration || defaultConfiguration}
+          configuration={quizData.configuration.resultPage || defaultConfiguration}
           onRestart={handleRestartQuiz} 
           loading={false}
         />

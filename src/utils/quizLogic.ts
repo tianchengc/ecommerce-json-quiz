@@ -29,13 +29,36 @@ export interface QuizQuestion {
   }>;
 }
 
-export interface QuizConfiguration {
+export interface generalConfiguration {
   showFakeLoading: boolean;
+} 
+
+export interface welcomePageConfiguration {
+  title: string;
+  description: string;
+  whatToExpect: string;
+  claimer: string;
+}
+
+export interface resultPageConfiguration {
   showPrice: boolean;
-  welcomeTitle: string;
-  welcomeDescription: string;
-  welcomeWhatToExpect: string;
-  welcomeClaimer: string;
+  loadingTitle: string;
+  loadingDescription: string;
+  noMatchesTitle: string;
+  noMatchesDescription: string;
+  successTitle: string;
+  successDescription: string;
+  bestMatchLabel: string;
+  retakeButtonText: string;
+  browseAllButtonText: string;
+  shopNowButtonText: string;
+  takeAgainButtonText: string;
+}
+
+export interface QuizConfiguration {
+  general: generalConfiguration;
+  welcomePage: welcomePageConfiguration;
+  resultPage: resultPageConfiguration;
 }
 
 export interface QuizData {

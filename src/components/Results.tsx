@@ -1,12 +1,12 @@
 import React from 'react';
-import type { QuizConfiguration, QuizResult } from '../utils/quizLogic';
+import type { QuizResult, resultPageConfiguration } from '../utils/quizLogic';
 import { Card, Button } from './UI';
 
 interface ResultsProps {
   results: QuizResult[];
   onRestart: () => void;
   loading?: boolean;
-  configuration?: QuizConfiguration;
+  configuration?: resultPageConfiguration;
 }
 
 export const Results: React.FC<ResultsProps> = ({ 
@@ -22,10 +22,10 @@ export const Results: React.FC<ResultsProps> = ({
         <div className="py-8 sm:py-12">
           <div className="loading-spinner mx-auto mb-4"></div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-            Finding Your Perfect Tea...
+            {configuration?.loadingTitle || "Finding Your Perfect Tea..."}
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            We're analyzing your preferences to recommend the best teas for you.
+            {configuration?.loadingDescription || "We're analyzing your preferences to recommend the best teas for you."}
           </p>
         </div>
       </Card>
@@ -38,18 +38,17 @@ export const Results: React.FC<ResultsProps> = ({
         <div className="py-8 sm:py-12">
           <div className="text-4xl sm:text-6xl mb-4">🍵</div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">
-            No Perfect Matches Found
+            {configuration?.noMatchesTitle || "No Perfect Matches Found"}
           </h2>
           <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8">
-            We couldn't find teas that match your specific preferences. 
-            Try adjusting your answers or explore our full collection.
+            {configuration?.noMatchesDescription || "We couldn't find teas that match your specific preferences. Try adjusting your answers or explore our full collection."}
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Button onClick={onRestart} className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base">
-              Retake Quiz
+              {configuration?.retakeButtonText || "Retake Quiz"}
             </Button>
             <Button variant="outline" className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base">
-              Browse All Teas
+              {configuration?.browseAllButtonText || "Browse All Teas"}
             </Button>
           </div>
         </div>
@@ -62,10 +61,15 @@ export const Results: React.FC<ResultsProps> = ({
       <div className="text-center mb-6 sm:mb-8">
         <div className="text-4xl sm:text-6xl mb-3 sm:mb-4">🎉</div>
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
-          Your Perfect Tea {results.length > 1 ? 'Matches' : 'Match'}!
+          {configuration?.successTitle || "Your Perfect Tea"} {results.length > 1 ? 'Matches' : 'Match'}!
         </h1>
         <p className="text-sm sm:text-lg text-gray-600">
-          Based on your preferences, we found {results.length} perfect tea{results.length > 1 ? 's' : ''} for you.
+          {configuration?.successDescription 
+            ? configuration.successDescription
+                .replace('{count}', results.length.toString())
+                .replace('{plural}', results.length > 1 ? 's' : '')
+            : `Based on your preferences, we found ${results.length} perfect tea${results.length > 1 ? 's' : ''} for you.`
+          }
         </p>
       </div>
 
@@ -93,7 +97,7 @@ export const Results: React.FC<ResultsProps> = ({
                 </h3>
                 {index === 0 && (
                   <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 sm:px-2.5 py-1 rounded-full">
-                    Best Match
+                    {configuration?.bestMatchLabel || "Best Match"}
                   </span>
                 )}
               </div>
@@ -118,7 +122,7 @@ export const Results: React.FC<ResultsProps> = ({
                   }}
                   className="px-4 sm:px-6 py-2 text-xs sm:text-sm"
                 >
-                  Shop Now
+                  {configuration?.shopNowButtonText || "Shop Now"}
                 </Button>
               </div>
             </div>
@@ -132,7 +136,7 @@ export const Results: React.FC<ResultsProps> = ({
           onClick={onRestart}
           className="px-6 sm:px-8 py-2 sm:py-3 text-sm sm:text-base"
         >
-          Take Quiz Again
+          {configuration?.takeAgainButtonText || "Take Quiz Again"}
         </Button>
       </div>
     </div>

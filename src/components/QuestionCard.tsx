@@ -78,11 +78,11 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                 {question.type === 'single-select' ? (
                   <div className={`w-4 h-4 rounded-full border-2 ${
                     isOptionSelected(option.id) 
-                      ? 'border-primary-500 bg-primary-500' 
+                      ? 'border-primary-500 bg-white' 
                       : 'border-gray-300'
                   }`}>
                     {isOptionSelected(option.id) && (
-                      <div className="w-2 h-2 gray rounded-full mx-auto mt-0.5"></div>
+                      <div className="w-2 h-2 bg-primary-500 rounded-full mx-auto mt-0.5"></div>
                     )}
                   </div>
                 ) : (

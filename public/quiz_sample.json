@@ -1,11 +1,28 @@
 {
   "configuration": {
-    "showFakeLoading": true,
-    "showPrice": false,
-    "welcomeTitle": "Find Your Perfect Tea",
-    "welcomeDescription": "Take our personalized quiz to discover teas that match your taste preferences, lifestyle, and wellness goals. Get recommendations tailored just for you.",
-    "welcomeWhatToExpect": "A few quick questions about your preferences\nPersonalized product recommendations\nTakes less than 2 minutes",
-    "welcomeClaimer": "No signup required • 100% free • Instant results"
+    "general": {
+      "showFakeLoading": true,
+      "showPrice": false
+    },
+    "welcomePage": {
+      "title": "Find Your Perfect Tea",
+      "description": "Take our personalized quiz to discover teas that match your taste preferences, lifestyle, and wellness goals. Get recommendations tailored just for you.",
+      "whatToExpect": "A few quick questions about your preferences\nPersonalized product recommendations\nTakes less than 2 minutes",
+      "claimer": "No signup required • 100% free • Instant results"
+    },
+    "resultPage": {
+      "loadingTitle": "Finding Your Perfect Tea...",
+      "loadingDescription": "We're analyzing your preferences to recommend the best teas for you.",
+      "noMatchesTitle": "No Perfect Matches Found",
+      "noMatchesDescription": "We couldn't find teas that match your specific preferences. Try adjusting your answers or explore our full collection.",
+      "successTitle": "Your Perfect Tea",
+      "successDescription": "Based on your preferences, we found {count} perfect tea{plural} for you.",
+      "bestMatchLabel": "Best Match",
+      "retakeButtonText": "Retake Quiz",
+      "browseAllButtonText": "Browse All Teas",
+      "shopNowButtonText": "Shop Now",
+      "takeAgainButtonText": "Take Quiz Again"
+    }
   },
   "questions": [
     {
