@@ -23,6 +23,13 @@
       "browseAllButtonText": "Browse All Teas",
       "shopNowButtonText": "Shop Now",
       "takeAgainButtonText": "Take Quiz Again"
+    },
+    "email": {
+      "enabled": false,
+      "adminEmail": "admin@yourdomain.com",
+      "fromEmail": "noreply@yourdomain.com",
+      "fromName": "Tea Quiz Widget",
+      "subject": "New Tea Quiz Results Submitted"
     }
   },
   "questions": [

@@ -46,65 +46,20 @@ function App() {
   // Load quiz data on component mount
   useEffect(() => {
     const loadQuizData = async () => {
-      let finalData = null;
-      let usingFallback = false;
-
-      // Helper function to try loading and parsing a JSON file
-      const tryLoadJson = async (url: string): Promise<QuizData | null> => {
-        try {
-          const response = await fetch(url);
-          
-          if (!response.ok) {
-            console.warn(`${url} failed with status ${response.status}`);
-            return null;
-          }
-
-          // Try to parse as JSON
-          const data = await response.json();
-          
-          // Validate the data structure
-          if (!data.questions || !data.results || !data.configuration) {
-            console.warn(`${url} has invalid data structure`);
-            return null;
-          }
-
-          return data;
-        } catch (error) {
-          console.warn(`Failed to load or parse ${url}:`, error);
-          return null;
-        }
-      };
-
       try {
-        console.log('Attempting to load quiz.json...');
-        
-        // First, try to load the main quiz.json
-        finalData = await tryLoadJson('/quiz.json');
-        
-        if (!finalData) {
-          console.warn('quiz.json not available, falling back to quiz_sample.json');
-          
-          // If main quiz.json fails, try sample
-          finalData = await tryLoadJson('/quiz_sample.json');
-          usingFallback = true;
-          
-          if (!finalData) {
-            throw new Error('Both quiz.json and quiz_sample.json failed to load or are invalid');
-          }
-          
-          console.log('Successfully loaded quiz_sample.json');
-        } else {
-          console.log('Successfully loaded quiz.json');
+        const response = await fetch('/quiz.json');
+        if (!response.ok) {
+          throw new Error('quiz.json not found');
         }
-        
-        setQuizData(finalData);
-        setIsUsingSampleData(usingFallback);
-        
+        const data = await response.json();
+        if (!data.questions || !data.results || !data.configuration) {
+          throw new Error('quiz.json has invalid data structure');
+        }
+        setQuizData(data);
+        setIsUsingSampleData(false);
+        console.log('Successfully loaded quiz.json');
       } catch (error) {
-        console.error('Failed to load quiz data:', error);
-        
-        // Provide fallback with default configuration
-        console.warn('Using fallback configuration due to load failure');
+        console.warn('Failed to load quiz.json, using default configuration:', error);
         setQuizData({
           configuration: defaultConfiguration,
           questions: [
