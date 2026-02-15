@@ -1,0 +1,294 @@
+{
+  "en": {
+    "configuration": {
+      "general": {
+        "showFakeLoading": true
+      },
+      "welcomePage": {
+        "title": "Find Your Perfect Product",
+        "description": "Answer a few questions to find the best products for you. Get personalized recommendations tailored just for you.",
+        "whatToExpect": "A few quick questions about your preferences\nPersonalized product recommendations\nTakes less than 2 minutes",
+        "claimer": "No signup required • 100% free • Instant results"
+      },
+      "resultPage": {
+        "showPrice": true,
+        "showViewAllOptions": true,
+        "loadingTitle": "Finding Your Perfect Match...",
+        "loadingDescription": "We're analyzing your preferences to recommend the best products for you.",
+        "noMatchesTitle": "No Perfect Matches Found",
+        "noMatchesDescription": "We couldn't find products that match your specific preferences. Try adjusting your answers or explore our full collection.",
+        "successTitle": "Your Perfect Match",
+        "successDescription": "Based on your preferences, we found {count} perfect product{plural} for you.",
+        "bestMatchLabel": "Best Match",
+        "retakeButtonText": "Retake Quiz",
+        "browseAllButtonText": "Browse All Products",
+        "shopNowButtonText": "Shop Now",
+        "takeAgainButtonText": "Take Quiz Again"
+      },
+      "email": {
+        "enabled": false,
+        "adminEmail": "admin@yourdomain.com",
+        "fromEmail": "noreply@yourdomain.com",
+        "fromName": "Quiz Widget",
+        "subject": "New Quiz Results Submitted"
+      },
+      "gemini": {
+        "enabled": true,
+        "model": "gemini-pro",
+        "apiKey": "YOUR_GEMINI_API_KEY",
+        "prompt": "Based on the user's quiz answers, provide personalized product recommendations and tea guidance."
+      }
+    },
+    "questions": [
+      {
+        "id": "q1",
+        "text": "What are you looking for?",
+        "type": "multi-select",
+        "options": [
+          { "id": "option1", "text": "🎯 Option 1 - First choice" },
+          { "id": "option2", "text": "⭐ Option 2 - Second choice" },
+          { "id": "option3", "text": "💫 Option 3 - Third choice" },
+          { "id": "option4", "text": "🌟 Option 4 - Fourth choice" }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "What's your preference?",
+        "type": "single-select",
+        "options": [
+          { "id": "pref1", "text": "🔵 Preference 1" },
+          { "id": "pref2", "text": "🟢 Preference 2" },
+          { "id": "pref3", "text": "🟡 Preference 3" }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "How would you describe yourself?",
+        "type": "multi-select",
+        "options": [
+          { "id": "trait1", "text": "👤 Trait 1 - Beginner friendly" },
+          { "id": "trait2", "text": "🎓 Trait 2 - Intermediate level" },
+          { "id": "trait3", "text": "🏆 Trait 3 - Advanced user" }
+        ]
+      }
+    ],
+    "products": [
+      {
+        "id": "product-001",
+        "name": "Premium Product A",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop",
+        "description": "A premium product perfect for those who selected option1 and pref1. Features high quality and excellent performance.",
+        "price": "$49.99",
+        "shopLink": "https://yourstore.com/product-a",
+        "tags": ["premium", "option1", "option2", "pref1"],
+        "attributes": {
+          "quality": "high",
+          "level": "advanced",
+          "type": "premium"
+        }
+      },
+      {
+        "id": "product-002",
+        "name": "Standard Product B",
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop",
+        "description": "A great all-around product suitable for intermediate users. Balances features and ease of use.",
+        "price": "$29.99",
+        "shopLink": "https://yourstore.com/product-b",
+        "tags": ["standard", "option2", "option3", "trait2", "pref2"],
+        "attributes": {
+          "quality": "medium",
+          "level": "intermediate",
+          "type": "standard"
+        }
+      },
+      {
+        "id": "product-003",
+        "name": "Budget-Friendly Product C",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+        "description": "An affordable option perfect for beginners. Simple to use and provides excellent value.",
+        "price": "$19.99",
+        "shopLink": "https://yourstore.com/product-c",
+        "tags": ["budget", "option4", "trait1", "pref3"],
+        "attributes": {
+          "quality": "good",
+          "level": "beginner",
+          "type": "budget"
+        }
+      },
+      {
+        "id": "product-004",
+        "name": "Advanced Product D",
+        "image": "https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=600&h=600&fit=crop",
+        "description": "For advanced users who want the best. Premium features and professional-grade quality.",
+        "price": "$79.99",
+        "shopLink": "https://yourstore.com/product-d",
+        "tags": ["advanced", "option1", "option3", "pref1", "trait3"],
+        "attributes": {
+          "quality": "premium",
+          "level": "expert",
+          "type": "professional"
+        }
+      },
+      {
+        "id": "default-product",
+        "name": "Universal Product E",
+        "image": "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop",
+        "description": "Our most popular product! Suitable for everyone and works in all situations. A safe choice that never disappoints.",
+        "price": "$34.99",
+        "shopLink": "https://yourstore.com/product-e",
+        "tags": ["popular", "universal", "bestseller"],
+        "attributes": {
+          "quality": "good",
+          "level": "all",
+          "type": "universal"
+        }
+      }
+    ]
+  },
+  "fr": {
+    "configuration": {
+      "general": {
+        "showFakeLoading": true
+      },
+      "welcomePage": {
+        "title": "Trouvez votre produit parfait",
+        "description": "Répondez à quelques questions pour trouver les meilleurs produits pour vous. Obtenez des recommandations personnalisées rien que pour vous.",
+        "whatToExpect": "Quelques questions rapides sur vos préférences\nRecommandations de produits personnalisées\nPrend moins de 2 minutes",
+        "claimer": "Aucune inscription requise • 100% gratuit • Résultats instantanés"
+      },
+      "resultPage": {
+        "showPrice": true,
+        "showViewAllOptions": true,
+        "loadingTitle": "Recherche de votre correspondance parfaite...",
+        "loadingDescription": "Nous analysons vos préférences pour vous recommander les meilleurs produits.",
+        "noMatchesTitle": "Aucune correspondance parfaite trouvée",
+        "noMatchesDescription": "Nous n'avons pas trouvé de produits correspondant à vos préférences spécifiques. Essayez d'ajuster vos réponses ou explorez notre collection complète.",
+        "successTitle": "Votre produit parfait",
+        "successDescription": "Selon vos préférences, nous avons trouvé {count} produit{plural} parfait pour vous.",
+        "bestMatchLabel": "Meilleure correspondance",
+        "retakeButtonText": "Refaire le quiz",
+        "browseAllButtonText": "Parcourir tous les produits",
+        "shopNowButtonText": "Acheter maintenant",
+        "takeAgainButtonText": "Refaire le quiz"
+      },
+      "email": {
+        "enabled": false,
+        "adminEmail": "admin@yourdomain.com",
+        "fromEmail": "noreply@yourdomain.com",
+        "fromName": "Widget de Quiz",
+        "subject": "Nouveaux résultats de quiz soumis"
+      },
+      "gemini": {
+        "enabled": true,
+        "model": "gemini-pro",
+        "apiKey": "YOUR_GEMINI_API_KEY",
+        "prompt": "En fonction des réponses de l'utilisateur au quiz, fournissez des recommandations de produits personnalisées et des conseils sur le thé."
+      }
+    },
+    "questions": [
+      {
+        "id": "q1",
+        "text": "Que recherchez-vous ?",
+        "type": "multi-select",
+        "options": [
+          { "id": "option1", "text": "🎯 Option 1 - Premier choix" },
+          { "id": "option2", "text": "⭐ Option 2 - Deuxième choix" },
+          { "id": "option3", "text": "💫 Option 3 - Troisième choix" },
+          { "id": "option4", "text": "🌟 Option 4 - Quatrième choix" }
+        ]
+      },
+      {
+        "id": "q2",
+        "text": "Quelle est votre préférence ?",
+        "type": "single-select",
+        "options": [
+          { "id": "pref1", "text": "🔵 Préférence 1" },
+          { "id": "pref2", "text": "🟢 Préférence 2" },
+          { "id": "pref3", "text": "🟡 Préférence 3" }
+        ]
+      },
+      {
+        "id": "q3",
+        "text": "Comment vous décririez-vous ?",
+        "type": "multi-select",
+        "options": [
+          { "id": "trait1", "text": "👤 Trait 1 - Convient aux débutants" },
+          { "id": "trait2", "text": "🎓 Trait 2 - Niveau intermédiaire" },
+          { "id": "trait3", "text": "🏆 Trait 3 - Utilisateur avancé" }
+        ]
+      }
+    ],
+    "products": [
+      {
+        "id": "product-001",
+        "name": "Produit Premium A",
+        "image": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&h=600&fit=crop",
+        "description": "Un produit premium parfait pour ceux qui ont sélectionné option1 et pref1. Offre une haute qualité et d'excellentes performances.",
+        "price": "$49.99",
+        "shopLink": "https://yourstore.com/product-a",
+        "tags": ["premium", "option1", "option2", "pref1"],
+        "attributes": {
+          "quality": "high",
+          "level": "advanced",
+          "type": "premium"
+        }
+      },
+      {
+        "id": "product-002",
+        "name": "Produit Standard B",
+        "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop",
+        "description": "Un excellent produit polyvalent adapté aux utilisateurs intermédiaires. Équilibre fonctionnalités et facilité d'utilisation.",
+        "price": "$29.99",
+        "shopLink": "https://yourstore.com/product-b",
+        "tags": ["standard", "option2", "option3", "trait2", "pref2"],
+        "attributes": {
+          "quality": "medium",
+          "level": "intermediate",
+          "type": "standard"
+        }
+      },
+      {
+        "id": "product-003",
+        "name": "Produit Économique C",
+        "image": "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=600&h=600&fit=crop",
+        "description": "Une option abordable parfaite pour les débutants. Simple à utiliser et offre un excellent rapport qualité-prix.",
+        "price": "$19.99",
+        "shopLink": "https://yourstore.com/product-c",
+        "tags": ["budget", "option4", "trait1", "pref3"],
+        "attributes": {
+          "quality": "good",
+          "level": "beginner",
+          "type": "budget"
+        }
+      },
+      {
+        "id": "product-004",
+        "name": "Produit Avancé D",
+        "image": "https://images.unsplash.com/photo-1560393464-5c69a73c5770?w=600&h=600&fit=crop",
+        "description": "Pour les utilisateurs avancés qui veulent le meilleur. Fonctionnalités premium et qualité professionnelle.",
+        "price": "$79.99",
+        "shopLink": "https://yourstore.com/product-d",
+        "tags": ["advanced", "option1", "option3", "pref1", "trait3"],
+        "attributes": {
+          "quality": "premium",
+          "level": "expert",
+          "type": "professional"
+        }
+      },
+      {
+        "id": "default-product",
+        "name": "Produit Universel E",
+        "image": "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=600&h=600&fit=crop",
+        "description": "Notre produit le plus populaire ! Convient à tous et fonctionne dans toutes les situations. Un choix sûr qui ne déçoit jamais.",
+        "price": "$34.99",
+        "shopLink": "https://yourstore.com/product-e",
+        "tags": ["popular", "universal", "bestseller"],
+        "attributes": {
+          "quality": "good",
+          "level": "all",
+          "type": "universal"
+        }
+      }
+    ]
+  }
+}

@@ -45,8 +45,8 @@ next-env.d.ts
 .dev.vars
 
 # Config files (except example)
-config/*.json
-!config/example.json
+public/config/*.json
+!public/config/example.json
 
 # Editor directories and files
 .vscode/*
