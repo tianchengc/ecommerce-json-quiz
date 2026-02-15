@@ -31,7 +31,7 @@ export interface QuizQuestion {
 
 export interface generalConfiguration {
   showFakeLoading: boolean;
-} 
+}
 
 export interface welcomePageConfiguration {
   title: string;

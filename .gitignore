@@ -1,4 +1,25 @@
-# Logs
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+build/
+
+# Production
+dist/
+dist-ssr/
+
+# Misc
+.DS_Store
+*.pem
+
+# Debug
 logs
 *.log
 npm-debug.log*
@@ -7,20 +28,32 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Local env files
+.env
+.env*.local
 *.local
+
+# Vercel
+.vercel
+
+# Typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# Wrangler (Cloudflare)
+.wrangler/
+.dev.vars
+
+# Config files (except example)
+config/*.json
+!config/example.json
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-
-.env

@@ -1,12 +1,15 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Welcome } from './components/Welcome';
-import { QuestionCard } from './components/QuestionCard';
-import { Results } from './components/Results';
-import { LoadingSpinner } from './components/UI';
-import type { QuizData, QuizAnswer, QuizResult, QuizConfiguration } from './utils/quizLogic';
-import { getRecommendations, validateQuizAnswer, simulateLoading } from './utils/quizLogic';
+import { Welcome } from '../components/Welcome';
+import { QuestionCard } from '../components/QuestionCard';
+import { Results } from '../components/Results';
+import { LoadingSpinner } from '../components/UI';
+import type { QuizData, QuizAnswer, QuizResult, QuizConfiguration } from '../lib/quizLogic';
+import { getRecommendations, validateQuizAnswer, simulateLoading } from '../lib/quizLogic';
 
 type QuizState = 'welcome' | 'quiz' | 'loading' | 'results';
+
 const defaultConfiguration: QuizConfiguration = {
   general: {
     showFakeLoading: true,
@@ -34,7 +37,7 @@ const defaultConfiguration: QuizConfiguration = {
   }
 };
 
-function App() {
+export default function Home() {
   const [quizData, setQuizData] = useState<QuizData | null>(null);
   const [quizState, setQuizState] = useState<QuizState>('welcome');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -47,7 +50,8 @@ function App() {
   useEffect(() => {
     const loadQuizData = async () => {
       try {
-        const response = await fetch('/quiz.json');
+        const configPath = process.env.NEXT_PUBLIC_QUIZ_CONFIG_PATH || '/config/quiz.json';
+        const response = await fetch(configPath);
         if (!response.ok) {
           throw new Error('quiz.json not found');
         }
@@ -240,7 +244,7 @@ function App() {
   }
 
   return (
-    <div className="quiz-container min-h-screen flex items-center justify-center bg-gray-50 p-4 sm:p-6">
+    <main className="min-h-screen flex items-center justify-center bg-gray-50 p-4 sm:p-6">
       
       {quizState === 'welcome' && quizData && (
         <Welcome 
@@ -274,13 +278,11 @@ function App() {
       {quizState === 'results' && (
         <Results 
           results={results} 
-          configuration={quizData.configuration.resultPage || defaultConfiguration}
+          configuration={quizData.configuration.resultPage}
           onRestart={handleRestartQuiz} 
           loading={false}
         />
       )}
-    </div>
+    </main>
   );
 }
-
-export default App;

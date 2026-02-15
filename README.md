@@ -412,7 +412,27 @@ docker run -d -p 3000:80 \
 
 ---
 
-## 📄 License
+## � Documentation
+
+This project has been migrated to Next.js 14 with TypeScript for Cloudflare Pages deployment.
+
+**Migration Documentation:**
+- [Migration Summary](docs/MIGRATION-SUMMARY.md) - Quick overview of changes
+- [Migration Guide](docs/MIGRATION-GUIDE.md) - Complete migration documentation
+- [Cloudflare Deployment Guide](docs/README-CLOUDFLARE.md) - Deployment instructions
+- [Deployment Checklist](docs/DEPLOYMENT-CHECKLIST.md) - Pre-deployment verification
+
+**Quick Start:**
+```bash
+npm install
+npm run dev              # Development
+npm run build            # Build for production
+npm run pages:deploy     # Deploy to Cloudflare Pages
+```
+
+---
+
+## �📄 License
 
 MIT — open for community use and extension. Attribution encouraged.
 

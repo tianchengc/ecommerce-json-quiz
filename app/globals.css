@@ -1,6 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import "tailwindcss";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -16,11 +14,11 @@ body {
 }
 
 .btn-primary {
-  @apply bg-blue-600 text-white hover:bg-blue-700;
+  @apply bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800;
 }
 
 .btn-secondary {
-  @apply bg-gray-100 text-gray-900 hover:bg-gray-200;
+  @apply bg-gray-100 text-gray-900 hover:bg-gray-200 active:bg-gray-300;
 }
 
 .card {
@@ -36,7 +34,7 @@ body {
 }
 
 .option-button {
-  @apply w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200;
+  @apply w-full text-left p-4 rounded-xl border-2 border-gray-200 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 cursor-pointer;
 }
 
 .option-button.selected {
@@ -47,3 +45,23 @@ body {
   @apply animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600;
 }
 
+/* Tea themed colors */
+.bg-tea-50 {
+  @apply bg-green-50;
+}
+
+.bg-tea-500 {
+  @apply bg-green-500;
+}
+
+.border-tea-200 {
+  @apply border-green-200;
+}
+
+.text-tea-700 {
+  @apply text-green-700;
+}
+
+.text-tea-800 {
+  @apply text-green-800;
+}

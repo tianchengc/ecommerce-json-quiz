@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import type { QuizResult, resultPageConfiguration } from '../utils/quizLogic';
+import type { QuizResult, resultPageConfiguration } from '../lib/quizLogic';
 import { Card, Button } from './UI';
 
 interface ResultsProps {
