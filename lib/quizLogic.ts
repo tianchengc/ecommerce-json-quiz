@@ -1,3 +1,6 @@
+// Multi-language support types
+export type LocalizedString = string | Record<string, string>;
+
 export interface QuizAnswer {
   questionId: string;
   selectedOptions: string[];
@@ -11,9 +14,9 @@ export interface QuizConditions {
 
 export interface QuizResult {
   productId: string;
-  productName: string;
+  productName: LocalizedString;
   productImage?: string;
-  productDescription?: string;
+  productDescription?: LocalizedString;
   price?: string;
   shopLink?: string;
   conditions: QuizConditions;
@@ -21,11 +24,11 @@ export interface QuizResult {
 
 export interface QuizQuestion {
   id: string;
-  text: string;
+  text: LocalizedString;
   type: 'single-select' | 'multi-select';
   options: Array<{
     id: string;
-    text: string;
+    text: LocalizedString;
   }>;
 }
 
@@ -56,16 +59,107 @@ export interface resultPageConfiguration {
   takeAgainButtonText: string;
 }
 
+export interface QuizTranslations {
+  en: {
+    welcomePage: welcomePageConfiguration;
+    resultPage: resultPageConfiguration;
+  };
+  fr?: {
+    welcomePage: welcomePageConfiguration;
+    resultPage: resultPageConfiguration;
+  };
+  [key: string]: {
+    welcomePage: welcomePageConfiguration;
+    resultPage: resultPageConfiguration;
+  } | undefined;
+}
+
 export interface QuizConfiguration {
+  defaultLanguage?: string;
+  availableLanguages?: string[];
   general: generalConfiguration;
-  welcomePage: welcomePageConfiguration;
-  resultPage: resultPageConfiguration;
+  // Support both old and new format
+  welcomePage?: welcomePageConfiguration;
+  resultPage?: resultPageConfiguration;
+  translations?: QuizTranslations;
 }
 
 export interface QuizData {
   configuration: QuizConfiguration;
   questions: QuizQuestion[];
   results: QuizResult[];
+}
+
+/**
+ * Gets the localized string value with fallback support
+ * @param value - Can be a string or an object with language keys
+ * @param language - The desired language code (e.g., 'en', 'fr')
+ * @param defaultLanguage - Fallback language (default: 'en')
+ * @returns The localized string
+ */
+export function getLocalizedString(
+  value: LocalizedString,
+  language: string = 'en',
+  defaultLanguage: string = 'en'
+): string {
+  // If it's already a string, return it (backward compatibility)
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  // Try to get the requested language
+  if (value[language]) {
+    return value[language];
+  }
+
+  // Fall back to default language
+  if (value[defaultLanguage]) {
+    return value[defaultLanguage];
+  }
+
+  // Fall back to English if default language not found
+  if (value['en']) {
+    return value['en'];
+  }
+
+  // Return the first available language as last resort
+  const firstKey = Object.keys(value)[0];
+  return value[firstKey] || '';
+}
+
+/**
+ * Gets the configuration for a specific language with fallback
+ * @param config - Quiz configuration
+ * @param language - Desired language
+ * @returns Combined configuration object
+ */
+export function getLocalizedConfiguration(
+  config: QuizConfiguration,
+  language: string
+): QuizConfiguration {
+  const defaultLang = config.defaultLanguage || 'en';
+
+  // If old format (no translations), return as-is
+  if (!config.translations) {
+    return config;
+  }
+
+  // Get translations for the requested language, or fallback
+  const translations = config.translations[language] || config.translations[defaultLang] || config.translations['en'];
+
+  if (!translations) {
+    // Return old format if it exists
+    if (config.welcomePage && config.resultPage) {
+      return config;
+    }
+    throw new Error('No valid configuration found');
+  }
+
+  return {
+    ...config,
+    welcomePage: translations.welcomePage,
+    resultPage: translations.resultPage
+  };
 }
 
 /**
