@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { getGeminiRecommendations } from '@/lib/gemini';
 import { loadLocaleConfig } from '@/lib/loadConfig';
 import { Product, QuizAnswer, QuizQuestion } from '@/lib/schemas';
+import ReactMarkdown from 'react-markdown';
 import { ResultsSkeleton } from '@/components/ResultsSkeleton';
 
 async function ResultsContent({
@@ -99,21 +100,14 @@ async function ResultsContent({
                         {product.description}
                       </span>
 
-                      {/* Why It's a Match */}
+                      {/* Why It's a Match (Markdown) */}
                       <div className="border-t border-gray-100 pt-3 mb-4 pb-2">
                         <span className="text-xs font-semibold text-gray-700 uppercase tracking-wide mb-1.5 block">
                           {"Why it's a match"}
                         </span>
-                        <ul className="text-xs sm:text-sm text-gray-600 space-y-1">
-                          <li className="flex items-start">
-                            <span className="text-teal-500 mr-2 flex-shrink-0">•</span>
-                            <span>Perfectly aligned with your wellness preferences</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-teal-500 mr-2 flex-shrink-0">•</span>
-                            <span>High-quality ingredients you selected</span>
-                          </li>
-                        </ul>
+                        <div className="text-xs sm:text-sm text-gray-600 mt-1">
+                          <ReactMarkdown>{recommendations.reasons?.[product.id] || ''}</ReactMarkdown>
+                        </div>
                       </div>
 
                       {/* Shop Button */}
@@ -141,30 +135,28 @@ async function ResultsContent({
             </div>
           )}
 
-          {/* AI Personalized Guidance Section */}
+          {/* AI Personalized Guidance Section (Markdown) */}
           {recommendations.guidance && (
             <div className="mb-8 sm:mb-10">
               <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                 ✨ {locale === 'fr' ? 'Conseils de préparation' : 'Your Brewing Guide'}
               </h2>
-              <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm">
-                <p className="text-gray-700 text-center leading-relaxed">
-                  {recommendations.guidance}
-                </p>
+              <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm text-gray-700 leading-relaxed">
+                <ReactMarkdown>{recommendations.guidance}</ReactMarkdown>
               </div>
             </div>
           )}
 
-          {/* AI Reasoning */}
+          {/* AI Reasoning (Markdown) */}
           {recommendations.reasoning && (
             <div className="bg-gradient-to-br from-teal-50 to-blue-50 rounded-xl p-5 sm:p-6 mb-8 border border-teal-100">
               <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center">
                 <span className="mr-2">💡</span>
                 {locale === 'fr' ? 'Comment avons-nous choisi?' : 'How We Chose'}
               </h3>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
-                {recommendations.reasoning}
-              </p>
+              <div className="text-sm sm:text-base text-gray-700 leading-relaxed">
+                <ReactMarkdown>{recommendations.reasoning}</ReactMarkdown>
+              </div>
             </div>
           )}
 

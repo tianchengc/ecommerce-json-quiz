@@ -77,8 +77,9 @@ export interface QuizConditions {
 
 export interface GeminiRecommendation {
   productIds: string[];
-  reasoning: string;
-  guidance: string;
+  reasons: Record<string, string>; // productId -> markdown reason
+  guidance: string; // brew guide, markdown
+  reasoning: string; // how we chose, markdown
 }
 
 export type LocalizedString = string | Record<string, string>;

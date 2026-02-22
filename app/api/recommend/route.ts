@@ -34,8 +34,9 @@ interface GeminiConfig {
 
 interface GeminiRecommendation {
   productIds: string[];
-  reasoning: string;
-  guidance: string;
+  reasons: Record<string, string>; // productId -> markdown reason
+  guidance: string; // brew guide, markdown
+  reasoning: string; // how we chose, markdown
 }
 
 interface GeminiRequestBody {
@@ -118,7 +119,14 @@ export async function POST(request: Request) {
     }));
 
     const systemPrompt = config.prompt ||
-      "You are an expert product recommendation assistant. Analyze customer preferences from their quiz responses and match them with the most suitable products from the available catalog. Consider product attributes, tags, descriptions, and how they align with the customer's stated needs and preferences.";
+      `You are an expert tea and wellness product recommendation assistant. Your job is to:
+      - Analyze customer quiz responses and match them with the best products from the catalog.
+      - For each recommended product, provide a short, markdown-formatted reason (1-2 lines, bullet or sentence) why it matches the user's preferences (keywords, features, or benefits).
+      - Write a short, markdown-formatted brewing guide for the recommended teas ("Your Brewing Guide").
+      - Write a short, markdown-formatted explanation of how you chose these products ("How We Chose").
+      - Keep all markdown simple and readable for end users.
+      - Respond ONLY with valid JSON (no markdown/code blocks around it).
+      `;
 
     const userPrompt = `
       # Customer Quiz Responses (with question and answer text):
@@ -131,19 +139,15 @@ export async function POST(request: Request) {
       ${JSON.stringify(productCatalog, null, 2)}
 
       # Your Task:
-      Analyze the customer's quiz responses and recommend 3-5 products from the catalog that best match their preferences.
-
-      Consider:
-      - Match product tags with the customer's selected preference tags
-      - Analyze product attributes and descriptions for alignment
-      - Prioritize products with the most relevant features for their needs
+      Recommend 3-5 products from the catalog that best match the customer's preferences.
 
       # Response Format:
       Respond ONLY with valid JSON (no markdown, no code blocks, no additional text):
       {
         "productIds": ["product-id-1", "product-id-2", "product-id-3"],
-        "reasoning": "Detailed explanation of why these products were selected based on their preferences and how each product's features align with their needs.",
-        "guidance": "Personalized advice for using or enjoying these products based on their preferences."
+        "reasons": { "product-id-1": "- Reason for product 1 (markdown)", ... },
+        "guidance": "Your Brewing Guide (markdown)",
+        "reasoning": "How We Chose (markdown)"
       }
       `;
 
@@ -204,17 +208,26 @@ function getFallbackRecommendations(
     return {
       product,
       score: matchingTags.length,
+      reason: matchingTags.length > 0
+        ? `- Matched tags: ${matchingTags.join(', ')}`
+        : '- General fit for your preferences',
     };
   });
 
   const recommendations = scoredProducts
     .sort((a, b) => b.score - a.score)
-    .slice(0, 5)
-    .map(item => item.product.id);
+    .slice(0, 5);
+
+  const productIds = recommendations.map(item => item.product.id);
+  const reasons: Record<string, string> = {};
+  recommendations.forEach(item => {
+    reasons[item.product.id] = item.reason;
+  });
 
   return {
-    productIds: recommendations,
-    reasoning: 'Recommendations based on your quiz answers and matching product attributes.',
-    guidance: 'These products align with your preferences and needs. Explore each option to find your perfect match!',
+    productIds,
+    reasons,
+    guidance: '• Use fresh, filtered water.\n• Steep at the recommended temperature and time for best flavor.\n• Enjoy your tea mindfully!',
+    reasoning: 'Products were selected based on the number of matching tags with your quiz answers. The more tags matched, the higher the product appears in your results.',
   };
 }
