@@ -1,440 +1,185 @@
-# 🍵 Embedded Quiz Widget
+# 🍵 Ecommerce Quiz Widget
 
-A lightweight, embeddable quiz component built with **React** and **TailwindCSS**. Designed to be embedded into platforms like **Wix**, **Shopify**, and **WordPress** using an `<iframe>`. The quiz loads questions, logic, and product recommendations from a static `quiz.json` configuration file.
+A lightweight, embeddable quiz component built with **Next.js 15**, **React**, and **TailwindCSS**. Designed to be embedded into platforms like **Wix**, **Shopify**, and **WordPress** using an `<iframe>`. The quiz features **Gemini AI** for personalized recommendations and a robust multi-language configuration system.
 
-## 🚀 Quick Start with Docker
+## 🚀 Quick Start
+
+### Local Development
 
 ```bash
 # 1. Clone the repository
 git clone <your-repo-url>
 cd ecommerce-json-quiz
 
-# 2. Build and run with Docker
-docker build -t quiz-widget .
-docker run -d --name my-quiz -p 3000:80 \
-  -v $(pwd)/public/quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  quiz-widget
+# 2. Install dependencies
+npm install
 
-# 3. Open http://localhost:3000 in your browser
-# 4. Edit quiz.json and see changes instantly!
+# 3. Set up environment variables
+cp .env.example .env
+# Edit .env and add your GEMINI_API_KEY
+
+# 4. Run the development server
+npm run dev
 ```
+
+Visit [http://localhost:3000](http://localhost:3000) to see your quiz in action.
 
 ---
 
 ## ✨ Features
 
-- ✅ **Automatic Fallback**: Uses `quiz_sample.json` if `quiz.json` is not found
-- 🧠 Supports **AND**, **OR**, and **NOT** logic between answers
-- 🛒 Displays product recommendations based on result mappings
-- 🎯 Optimized for embedding in Wix or any website via iframe
-- 📱 Fully responsive and mobile-first design
-- ⚡ Fast loading with smooth animations and transitions
-- 🔄 Progress tracking and question navigation
-- 🌍 Multi-language support ready (coming soon)
+- 🤖 **Gemini AI Integration**: Intelligent, personalized product recommendations powered by Google's Gemini Pro.
+- 🌍 **Multi-Language Support**: Complete internationalization support (i18n) via a structured `example.json`.
+- 🧠 **Smart Logic System**: Supports complex **AND**, **OR**, and **NOT** logic between answers for tag-based matching.
+- 🎯 **Optimized for Embedding**: Perfectly sized for Wix, Shopify, or any platform via iframe.
+- 📱 **Mobile-First Design**: Fully responsive and optimized for touch devices.
+- ⚡ **Next.js 15 + App Router**: High-performance architecture with Server Components and API routes.
+- ☁️ **Cloudflare Ready**: Native support for Cloudflare Pages via OpenNext.
 
 ---
 
 ## 📦 Project Structure
 
 ```
+├── app/                    # Next.js App Router (pages & API)
+│   ├── [locale]/           # i18n routing
+│   │   ├── quiz/           # Main quiz interface
+│   │   └── results/        # Recommendation results
+│   └── api/                # Backend endpoints (Gemini, Recommendations)
+├── components/            # Reusable UI components (QuizForm, UI, etc.)
+├── docs/                  # Detailed documentation
+├── lib/                   # Shared logic, schemas, and AI integration
 ├── public/
-│   ├── quiz.json               # Main quiz configuration (user-provided)
-│   └── quiz_sample.json        # Sample/fallback quiz data
-├── src/
-│   ├── App.tsx                 # Main quiz application with fallback logic
-│   ├── components/             # Reusable UI components
-│   │   ├── UI.tsx              # Base UI components (Button, Card, etc.)
-│   │   ├── Welcome.tsx         # Welcome screen component
-│   │   ├── QuestionCard.tsx    # Quiz question display component
-│   │   └── Results.tsx         # Results and recommendations component
-│   ├── utils/                  # Logic and utilities
-│   │   └── quizLogic.ts        # Quiz condition evaluation logic
-│   ├── index.css               # TailwindCSS styles and custom components
-│   └── main.tsx                # React app entry point
-├── Dockerfile                  # Docker container configuration
-├── docker-compose.yml          # Docker Compose configuration
-├── nginx.conf                  # Nginx server configuration
-├── .dockerignore               # Docker ignore file
-├── tailwind.config.js          # TailwindCSS configuration with custom theme
-├── postcss.config.js           # PostCSS configuration
-├── vite.config.ts              # Vite build configuration
-├── tsconfig.json               # TypeScript project references
-├── tsconfig.app.json           # TypeScript config for app code
-├── tsconfig.node.json          # TypeScript config for build tools
-└── package.json                # Project dependencies
+│   └── config/
+│       └── example.json   # Sample configuration reference
+├── wrangler.jsonc         # Cloudflare Pages configuration
+├── next.config.mjs        # Next.js configuration
+└── package.json           # Project dependencies & scripts
 ```
 
 ---
 
-## 🔄 Configuration Fallback System
+## 🛠️ Configuration
 
-The quiz widget includes a robust fallback system to ensure it always works:
-
-### File Priority:
-1. **Primary**: Attempts to load `/quiz.json` (your custom quiz configuration)
-2. **Fallback**: If not found, automatically loads `/quiz_sample.json` (built-in sample)
-3. **Error Handling**: If both fail, shows an error message
-
-### Visual Indicators:
-- When using sample data, a **yellow notification** appears: `⚠️ Using sample data (quiz_sample.json)`
-- Console logs show which file was loaded for debugging
-
-### Use Cases:
-- **Development**: Start coding immediately without creating quiz.json
-- **Testing**: Use sample data to test the quiz functionality
-- **Production**: Ensures the quiz works even if custom configuration is missing
-- **Deployment**: Run container without mounting quiz.json volume
-
-### Example Usage:
-```bash
-# Run with custom quiz.json
-docker run -d -p 3000:80 \
-  -v $(pwd)/my-quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  quiz-widget
-
-# Run with sample data (no volume needed)
-docker run -d -p 3000:80 quiz-widget
-```
-
----
-
-## 🧠 Quiz Logic System
-
-The quiz uses a flexible condition system that supports:
-
-- **anyOf**: At least one of the specified options must be selected
-- **allOf**: All specified options must be selected  
-- **not**: None of the specified options must be selected
-
-### `quiz.json` Format
+The quiz is entirely driven by `public/config/example.json`. This file supports multiple languages:
 
 ```json
 {
-  "questions": [
-    {
-      "id": "q1",
-      "text": "What kind of flavors do you enjoy?",
-      "type": "multi-select",
-      "options": [
-        { "id": "floral", "text": "Floral (jasmine, rose, lavender)" },
-        { "id": "fruity", "text": "Fruity (citrus, berry, tropical)" },
-        { "id": "earthy", "text": "Earthy (mineral, woody, mossy)" }
-      ]
-    },
-    {
-      "id": "q2",
-      "text": "What's your goal for drinking tea?",
-      "type": "single-select",
-      "options": [
-        { "id": "relax", "text": "Relaxation and stress relief" },
-        { "id": "energy", "text": "Energy boost and alertness" }
-      ]
-    }
-  ],
-  "results": [
-    {
-      "productId": "oolong001",
-      "productName": "Golden Oolong",
-      "productImage": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=300&h=300&fit=crop",
-      "productDescription": "A perfectly balanced oolong with floral notes and a smooth finish.",
-      "price": "$24.99",
-      "shopLink": "#",
-      "conditions": {
-        "anyOf": ["floral", "fruity"],
-        "allOf": ["relax"],
-        "not": ["earthy"]
+  "en": {
+    "configuration": {
+      "gemini": {
+        "enabled": true,
+        "model": "gemini-1.5-flash"
       }
-    }
-  ]
+    },
+    "questions": [ ... ],
+    "products": [ ... ]
+  },
+  "fr": { ... }
 }
 ```
 
+Detailed configuration options can be found in [docs/CONFIG-FILE-REFERENCE.md](docs/CONFIG-FILE-REFERENCE.md).
+
 ---
 
-## 🚀 Setup & Run
+## 🤖 Gemini AI Integration
 
-### Prerequisites
+To enable AI-powered recommendations:
 
-- Node.js 18+ (required for Vite 7.x)
-- npm or yarn
+1. Obtain a Gemini API Key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+2. Add it to your `.env` file: `GEMINI_API_KEY=your_key_here`.
+3. Enable Gemini in the locale block of your `example.json`.
 
-### Development Setup
+See [docs/GEMINI-INTEGRATION.md](docs/GEMINI-INTEGRATION.md) for more details.
+
+---
+
+## ⚙️ Cloudflare Worker Setup
+
+This project uses `@opennextjs/cloudflare` to run Next.js inside a Cloudflare Worker.
+
+### 1. Initialize Cloudflare Resources
+
+Before your first deployment, ensure you have the required R2 bucket for caching and are logged in:
 
 ```bash
-# Install dependencies
-npm install
+# Login to Cloudflare
+npx wrangler login
 
-# Start the development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
+# Create the cache bucket (required by OpenNext)
+npx wrangler r2 bucket create ecommerce-json-quiz-cache
 ```
 
-### 🐳 Docker Deployment
+### 2. Environment Configuration
 
-The quiz widget can be easily deployed using Docker with your custom quiz configuration.
-
-#### Quick Start with Docker
+Add your **GEMINI_API_KEY** to your Cloudflare project either through the dashboard or via wrangler:
 
 ```bash
-# Build the Docker image
-docker build -t quiz-widget .
-
-# Run with your custom quiz.json file
-docker run -d \
-  --name quiz-widget \
-  -p 3000:80 \
-  -v $(pwd)/quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  quiz-widget
-```
-
-#### Using Docker Compose (Recommended)
-
-```bash
-# Run with docker-compose
-docker-compose up -d
-
-# Or run in development mode with hot reload
-docker-compose --profile dev up -d quiz-widget-dev
-```
-
-#### Custom Quiz Configuration
-
-1. **Create your quiz.json file** based on the example in `public/quiz.json`
-2. **Mount it as a volume** when running the container:
-
-```bash
-# Using absolute path
-docker run -d \
-  --name my-quiz \
-  -p 3000:80 \
-  -v /path/to/your/quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  quiz-widget
-
-# Using relative path (current directory)
-docker run -d \
-  --name my-quiz \
-  -p 3000:80 \
-  -v $(pwd)/my-custom-quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  quiz-widget
-```
-
-#### Live Quiz Updates
-
-To update your quiz configuration without rebuilding:
-
-1. **Edit your quiz.json file**
-2. **The changes will be reflected immediately** (no container restart needed)
-3. **Clear browser cache** if changes don't appear
-
-```bash
-# Example: Update quiz and verify
-echo '{"questions": [...], "results": [...]}' > my-quiz.json
-# Visit http://localhost:3000 to see changes
-```
-
-#### Production Deployment
-
-For production deployment, you can use any container orchestration platform:
-
-```bash
-# Deploy to production server
-docker run -d \
-  --name quiz-widget-prod \
-  -p 80:80 \
-  -v /opt/quiz-configs/my-quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  --restart unless-stopped \
-  quiz-widget
-```
-
-#### Environment Variables
-
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `NODE_ENV` | Environment mode | `production` |
-
-#### Docker Commands Reference
-
-```bash
-# Build image
-docker build -t quiz-widget .
-
-# Run container
-docker run -d --name quiz-widget -p 3000:80 quiz-widget
-
-# Stop container
-docker stop quiz-widget
-
-# Remove container
-docker rm quiz-widget
-
-# View logs
-docker logs quiz-widget
-
-# Access container shell
-docker exec -it quiz-widget sh
+npx wrangler secret put GEMINI_API_KEY
 ```
 
 ---
 
-## 🎨 Customization
+## ☁️ Deployment
 
-### Theming
+The recommended way to deploy this widget is via **Cloudflare Workers**.
 
-The project includes a custom TailwindCSS theme with tea-inspired colors:
+### Local Deployment Validation
 
-- **Primary colors**: Blue gradient (`primary-50` to `primary-900`)
-- **Tea colors**: Warm brown gradient (`tea-50` to `tea-900`)
-- **Custom animations**: `fade-in`, `slide-up`, `pulse-slow`
+Before deploying, you can validate the Cloudflare-specific build locally:
 
-### Quiz Configuration
+```bash
+# 1. Build using OpenNext-Cloudflare
+npm run pages:build
 
-Edit `public/quiz.json` to customize:
+# 2. Preview the build locally (using Wrangler)
+npm run pages:dev
+```
 
-- Questions and answer options
-- Product recommendations
-- Matching logic conditions
-- Product images and descriptions
+For more deployment options (GitHub Actions, Dashboard), see [docs/README-CLOUDFLARE.md](docs/README-CLOUDFLARE.md).
 
 ---
 
-## 🔌 Embed in Wix / Shopify / WordPress
+## 🚀 Deploying as a Cloudflare Worker
 
-### Hosted Deployment
+To deploy this project as a Cloudflare Worker:
 
-After deploying with Docker (e.g., on your server, VPS, or cloud platform), embed the quiz with:
+1. **Create a new Worker in the Cloudflare dashboard**
+   - Choose "Create Application" > "Workers" (recommended: Workers for full SSR support)
+   - Connect your GitHub repository or upload your code
+   - Add build and deploy command as following
+   
+```bash
+npx @opennextjs/cloudflare build
+npx @opennextjs/cloudflare deploy
+```
+
+2. **Set environment variables**
+   - Add `DEFAULT_CONFIG_FILE=example.json` (or your config file name)
+   - Add your `GEMINI_API_KEY` (see above)
+
+---
+
+## 🔌 Using as a Widget (Iframe)
+
+Once deployed, you can embed the quiz anywhere:
 
 ```html
 <iframe 
-  src="https://your-domain.com:3000"
+  src="https://your-quiz-app.pages.dev/en/quiz"
   width="100%" 
-  height="600" 
-  style="border: none; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" 
+  height="700" 
+  style="border: none; border-radius: 12px; overflow: hidden;"
   loading="lazy">
 </iframe>
 ```
 
-### Docker Deployment Options
-
-#### Option 1: VPS/Server Deployment
-```bash
-# On your server
-docker run -d \
-  --name quiz-widget \
-  -p 80:80 \
-  -v /path/to/your/quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  --restart unless-stopped \
-  quiz-widget
-
-# Then embed with your domain
-# <iframe src="https://yourdomain.com" ...>
-```
-
-#### Option 2: Cloud Platform (AWS/GCP/Azure)
-Deploy using your cloud provider's container service and use the provided URL.
-
-#### Option 3: Docker Hub
-```bash
-# Push to Docker Hub (optional)
-docker tag quiz-widget yourusername/quiz-widget
-docker push yourusername/quiz-widget
-
-# Others can then deploy with:
-docker run -d -p 3000:80 \
-  -v ./their-quiz.json:/usr/share/nginx/html/quiz.json:ro \
-  yourusername/quiz-widget
-```
-
-### Integration Tips
-
-- **Responsive**: Use `width="100%"` and adjust height as needed
-- **Mobile-first**: The quiz is optimized for mobile devices
-- **Performance**: Lazy loading is built-in for better performance
-- **Accessibility**: Proper ARIA labels and keyboard navigation
-- **Custom Domain**: Point your domain to the Docker container for cleaner URLs
-
-> ✅ **Tip**: Use `postMessage` API for dynamic resizing or communication between iframe and host page (optional).
-
 ---
 
-## 🛠️ Technical Details
+## 📄 License
 
-### Built With
-
-- **React 19**: Latest React with TypeScript support
-- **Vite 7.x**: Fast build tool and dev server
-- **TailwindCSS 4.x**: Utility-first CSS framework
-- **TypeScript**: Full type safety with project references
-- **Docker**: Containerized deployment with Nginx
-- **Nginx**: High-performance web server for production
-
-### Key Features
-
-- **Mobile-first responsive design**
-- **Smooth animations and transitions**
-- **Progress tracking with visual indicators**
-- **Flexible quiz logic system**
-- **Beautiful product recommendation cards**
-- **TypeScript for type safety**
-- **Modern build tools and hot reloading**
-- **Docker containerization for easy deployment**
-- **Live configuration updates without rebuilding**
-- **Production-ready Nginx configuration**
-
-### Deployment Architecture
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   quiz.json     │───▶│  Docker Container│───▶│   Nginx Server  │
-│ (Configuration) │    │                  │    │  (Port 80/443)  │
-└─────────────────┘    │  ┌─────────────┐ │    └─────────────────┘
-                       │  │ React App   │ │
-                       │  │ (Built)     │ │
-                       │  └─────────────┘ │
-                       └──────────────────┘
-```
-
----
-
-## 📚 Coming Soon
-
-- AI-assisted quiz generation
-- Custom product description generation with OpenAI
-- Admin dashboard to edit quizzes
-- Result export & webhook support
-- Multi-language support
-- A/B testing for questions and results
-- Analytics and conversion tracking
-
----
-
-## � Documentation
-
-This project has been migrated to Next.js 14 with TypeScript for Cloudflare Pages deployment.
-
-**Migration Documentation:**
-- [Migration Summary](docs/MIGRATION-SUMMARY.md) - Quick overview of changes
-- [Migration Guide](docs/MIGRATION-GUIDE.md) - Complete migration documentation
-- [Cloudflare Deployment Guide](docs/README-CLOUDFLARE.md) - Deployment instructions
-- [Deployment Checklist](docs/DEPLOYMENT-CHECKLIST.md) - Pre-deployment verification
-
-**Quick Start:**
-```bash
-npm install
-npm run dev              # Development
-npm run build            # Build for production
-npm run pages:deploy     # Deploy to Cloudflare Pages
-```
-
----
-
-## �📄 License
-
-MIT — open for community use and extension. Attribution encouraged.
+MIT — open for community use and extension.
 
 ---
 
@@ -442,15 +187,12 @@ MIT — open for community use and extension. Attribution encouraged.
 
 Created by [Tiancheng Chen / @tianchengc](https://github.com/tianchengc)
 
-**Features Implemented:**
-- ✅ Complete React + TypeScript project structure
-- ✅ TailwindCSS styling with custom theme
-- ✅ Quiz logic engine with AND/OR/NOT conditions
-- ✅ Responsive design with mobile-first approach
-- ✅ Loading states and smooth animations
-- ✅ Progress tracking and navigation
-- ✅ Product recommendation system
+**Main Features:**
+- ✅ Next.js 15 & AI Integration
+- ✅ Multi-language JSON config
+- ✅ Responsive Quiz UI
+- ✅ Gemini-powered personal recommendation
+- ✅ Cloudflare Pages optimized
 - ✅ Configurable quiz data via JSON
-- ✅ Optimized for iframe embedding
 
-Need help or want to collaborate? Reach out!
+
