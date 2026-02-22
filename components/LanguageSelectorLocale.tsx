@@ -13,28 +13,25 @@ export function LanguageSelector({ currentLocale, languages }: LanguageSelectorP
   const searchParams = useSearchParams();
 
   const handleLanguageChange = (newLocale: string) => {
-    // Get current pathname
-    const currentPath = pathname;
-    
-    // Split path and filter out empty strings
-    const segments = currentPath.split('/').filter(Boolean);
-    
-    // Build path without locale (everything after first segment)
-    const pathWithoutLocale = segments.length > 1 
-      ? '/' + segments.slice(1).join('/')
-      : '';
-    
-    // Build complete new path
-    const newPath = `/${newLocale}${pathWithoutLocale}`;
-    
-    // Preserve query parameters
-    const queryString = searchParams.toString();
-    const fullPath = queryString ? `${newPath}?${queryString}` : newPath;
-    
-    // Use absolute URL to prevent relative path issues
-    const absoluteUrl = `${window.location.origin}${fullPath}`;
-    window.location.href = absoluteUrl;
-  };
+  // pathname is already the localized path (e.g., /en/quiz)
+  const segments = pathname.split('/').filter(Boolean);
+  
+  // Replace the first segment (the old locale) with the new one
+  if (segments.length > 0) {
+    segments[0] = newLocale;
+  } else {
+    segments.push(newLocale);
+  }
+  
+  const newPath = `/${segments.join('/')}`;
+  
+  // searchParams is a read-only object in Next 15, stringify it safely
+  const queryString = searchParams.toString();
+  const fullPath = queryString ? `${newPath}?${queryString}` : newPath;
+  
+  // Use router.push for a faster, single-page-app transition
+  router.push(fullPath);
+};
 
   const currentLanguage = languages.find(lang => lang === currentLocale) || languages[0];
 

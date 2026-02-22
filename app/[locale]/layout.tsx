@@ -1,41 +1,25 @@
+import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { headers } from 'next/headers';
-import { ConfigProvider } from '@/lib/ConfigContext';
-import { loadQuizConfig, loadFullConfig, getFirstLanguage, getSupportedLocales, isValidLocale } from '@/lib/loadConfig';
+import { loadFullConfig, getSupportedLocales, isValidLocale, loadLocaleConfig } from '@/lib/loadConfig';
+import { QuizLocaleConfig } from '@/lib/schemas';
 
-export async function generateStaticParams() {
-  // Load config to get supported locales dynamically
-  const fullConfig = await loadFullConfig();
-  const supportedLocales = getSupportedLocales(fullConfig);
-  
-  return supportedLocales.map((locale: string) => ({
-    locale,
-  }));
-}
+export const runtime = 'nodejs';
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
-  params: { locale: string };
-  searchParams?: { config?: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-  const { locale } = params;
+  const { locale } = await params;
 
-  // Get config file from query parameter (e.g., ?config=quiz.json)
-  const configFile = searchParams?.config;
+  // Load full config to validate locale
+  const localeConfig: QuizLocaleConfig | null = await loadLocaleConfig(locale);
 
-  // Load full config to get first language
-  const fullConfig = await loadFullConfig(configFile);
+  if (localeConfig) {
 
-  if (fullConfig) {
-    // Get the first language from the config
-    const firstLanguage = getFirstLanguage(fullConfig);
-    const defaultLangConfig = fullConfig[firstLanguage];
-
-    if (defaultLangConfig?.configuration?.welcomePage) {
-      const { welcomePage } = defaultLangConfig.configuration;
+    if (localeConfig?.configuration?.welcomePage) {
+      const { welcomePage } = localeConfig.configuration;
       return {
         title: welcomePage.title,
         description: welcomePage.description,
@@ -55,39 +39,21 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
-  const { locale } = params;
+  const { locale } = await params;
+  const fullConfig = await loadFullConfig();
 
-  // Get config file from header (set by middleware from query parameter)
-  const headersList = headers();
-  const configFile = headersList.get('x-config-file') || undefined;
-
-  // Load full config to validate locale
-  const fullConfig = await loadFullConfig(configFile);
-  
   // Validate locale exists in config
   if (!fullConfig || !isValidLocale(locale, fullConfig)) {
     notFound();
   }
 
-  // Load config with the specified config file or default
-  const configData = await loadQuizConfig(locale, configFile);
-
-  if (!configData) {
-    return <div>Failed to load configuration</div>;
-  }
-
   return (
-    // Outer transparent box - 100% width and height
     <div lang={locale} className="w-full h-full min-h-screen bg-transparent flex items-center justify-center">
-      {/* Inner constrained box - max dimensions, centered */}
       <div className="w-full h-full max-w-[640px] max-h-[720px] mx-auto bg-white flex flex-col justify-center">
-        {/* Page Content */}
         <div className="flex-1 min-h-0 overflow-auto flex justify-center">
-          <ConfigProvider config={configData} locale={locale} languages={getSupportedLocales(fullConfig)}>
-            {children}
-          </ConfigProvider>
+          {children}
         </div>
       </div>
     </div>

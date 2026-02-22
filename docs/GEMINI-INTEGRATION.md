@@ -16,12 +16,19 @@ This quiz application integrates Google's Gemini AI to provide intelligent, pers
 
 ### 1. Get a Gemini API Key
 
-1. Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
+1. Go to [Google AI Studio](https://aistudio.google.com/app/apikey)
 2. Sign in with your Google account
 3. Click "Create API Key"
 4. Copy your API key
 
-### 2. Configure in Config File
+### 2. Set API Key
+
+Add to your `.env` file:
+```bash
+GEMINI_API_KEY=your_actual_api_key_here
+```
+
+### 3. Configure in Config File
 
 Add the Gemini configuration to your locale-specific config file (`public/config/quiz.json`):
 
@@ -31,9 +38,8 @@ Add the Gemini configuration to your locale-specific config file (`public/config
     "configuration": {
       "gemini": {
         "enabled": true,
-        "model": "gemini-pro",
-        "apiKey": "YOUR_GEMINI_API_KEY",
-        "prompt": "You are a tea expert helping customers find their perfect tea..."
+        "model": "gemini-1.5-flash",
+        "prompt": "You are an expert tea sommelier with deep knowledge..."
       }
     }
   }
@@ -45,8 +51,7 @@ Add the Gemini configuration to your locale-specific config file (`public/config
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `enabled` | boolean | Yes | Enable/disable Gemini AI recommendations |
-| `model` | string | Yes | Gemini model name (use `gemini-pro`) |
-| `apiKey` | string | Yes | Your Gemini API key |
+| `model` | string | Yes | Gemini model name (use `gemini-1.5-flash` or `gemini-pro`) |
 | `prompt` | string | Yes | System prompt that defines AI behavior |
 
 ### 3. Environment Variables (Recommended for Production)
@@ -58,13 +63,7 @@ For security, store your API key in environment variables:
 GEMINI_API_KEY=your_actual_api_key_here
 ```
 
-**Update your config loading code** to use environment variables:
-```typescript
-const geminiConfig = {
-  ...config.gemini,
-  apiKey: process.env.GEMINI_API_KEY || config.gemini.apiKey
-};
-```
+**Note:** The Gemini API key is read from `GEMINI_API_KEY` at runtime.
 
 ## How It Works
 

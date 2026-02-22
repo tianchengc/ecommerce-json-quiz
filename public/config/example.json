@@ -8,7 +8,8 @@
         "title": "Find Your Perfect Product",
         "description": "Answer a few questions to find the best products for you. Get personalized recommendations tailored just for you.",
         "whatToExpect": "A few quick questions about your preferences\nPersonalized product recommendations\nTakes less than 2 minutes",
-        "claimer": "No signup required • 100% free • Instant results"
+        "claimer": "No signup required • 100% free • Instant results",
+        "startQuizButtonText": "Start Quiz"
       },
       "resultPage": {
         "showPrice": true,
@@ -34,8 +35,7 @@
       },
       "gemini": {
         "enabled": true,
-        "model": "gemini-pro",
-        "apiKey": "YOUR_GEMINI_API_KEY",
+        "model": "gemini-3-flash-preview",
         "prompt": "Based on the user's quiz answers, provide personalized product recommendations and tea guidance."
       }
     },
@@ -154,7 +154,8 @@
         "title": "Trouvez votre produit parfait",
         "description": "Répondez à quelques questions pour trouver les meilleurs produits pour vous. Obtenez des recommandations personnalisées rien que pour vous.",
         "whatToExpect": "Quelques questions rapides sur vos préférences\nRecommandations de produits personnalisées\nPrend moins de 2 minutes",
-        "claimer": "Aucune inscription requise • 100% gratuit • Résultats instantanés"
+        "claimer": "Aucune inscription requise • 100% gratuit • Résultats instantanés",
+        "startQuizButtonText": "Commencer le quiz"
       },
       "resultPage": {
         "showPrice": true,
@@ -180,8 +181,7 @@
       },
       "gemini": {
         "enabled": true,
-        "model": "gemini-pro",
-        "apiKey": "YOUR_GEMINI_API_KEY",
+        "model": "gemini-1.5-flash",
         "prompt": "En fonction des réponses de l'utilisateur au quiz, fournissez des recommandations de produits personnalisées et des conseils sur le thé."
       }
     },

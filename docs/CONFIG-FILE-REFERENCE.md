@@ -164,7 +164,6 @@ The `configuration` object contains all app settings and UI text for that langua
   "gemini": {
     "enabled": true,
     "model": "gemini-pro",
-    "apiKey": "YOUR_GEMINI_API_KEY",
     "prompt": "You are a tea expert helping customers..."
   }
 }
@@ -174,10 +173,9 @@ The `configuration` object contains all app settings and UI text for that langua
 |-------|------|----------|-------------|
 | `enabled` | boolean | Yes | Enable Gemini AI recommendations |
 | `model` | string | If enabled | Gemini model name (`gemini-pro`, `gemini-pro-vision`) |
-| `apiKey` | string | If enabled | Your Gemini API key |
 | `prompt` | string | If enabled | System prompt for AI recommendations |
 
-**Note:** Store API keys in environment variables in production. The config file should use placeholders.
+**Note:** Store API keys in environment variables in production.
 
 ## Questions Section
 

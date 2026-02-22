@@ -1,125 +1,72 @@
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  image: string;
-  shopLink: string;
-  tags: string[];
-  attributes?: Record<string, string>;
-}
-
-interface QuizAnswer {
-  questionId: string;
-  selectedOptions: string[];
-}
-
-interface GeminiConfig {
-  enabled: boolean;
-  model: string;
-  apiKey: string;
-  prompt: string;
-}
-
-interface GeminiRecommendation {
-  productIds: string[];
-  reasoning: string;
-  guidance: string;
-}
+import { headers } from 'next/headers';
+import { GeminiConfig, GeminiRecommendation, Product, QuizAnswer, QuizQuestion } from './schemas';
 
 export async function getGeminiRecommendations(
+  config: GeminiConfig,
+  questions: QuizQuestion[] = [],
   answers: QuizAnswer[],
   products: Product[],
-  config: GeminiConfig
 ): Promise<GeminiRecommendation> {
-  if (!config.enabled || !config.apiKey || config.apiKey === 'YOUR_GEMINI_API_KEY') {
-    console.log('Gemini is disabled or API key not configured, using fallback recommendations');
-    return getFallbackRecommendations(answers, products);
-  }
+  console.log('=== Gemini Recommendations Debug ===');
+  console.log('Config:', config);
+  console.log('Config enabled:', config?.enabled);
+  console.log('Config model:', config?.model);
+  console.log('Answers count:', answers?.length);
+  console.log('Products count:', products?.length);
+  console.log('Questions count:', questions?.length);
+
+  const headersList = await headers();
+  const host = headersList.get('x-forwarded-host') || headersList.get('host');
+  const forwardedProto = headersList.get('x-forwarded-proto');
+  const protocol = forwardedProto || (host && (host.includes('localhost') || host.startsWith('127.0.0.1'))
+    ? 'http'
+    : 'https');
+  const baseUrl = host ? `${protocol}://${host}` : undefined;
+
+  console.log('Request headers - host:', host, 'proto:', forwardedProto);
+  console.log('Resolved baseUrl:', baseUrl);
+
+  const apiUrl = baseUrl ? `${baseUrl}/api/recommend` : '/api/recommend';
+  console.log('Final API URL:', apiUrl);
 
   try {
-    // Extract selected options from answers
-    const selectedTags = answers.flatMap(answer => answer.selectedOptions);
+    console.log('🚀 Calling Gemini API route:', apiUrl);
+    console.log('Request body config:', { enabled: config?.enabled, model: config?.model });
 
-    // Prepare product catalog for Gemini
-    const productCatalog = products.map(p => ({
-      id: p.id,
-      name: p.name,
-      description: p.description,
-      tags: p.tags,
-      attributes: p.attributes,
-    }));
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        answers,
+        products,
+        config,
+        questions,
+      }),
+      cache: 'no-store',
+    });
 
-    // Construct the prompt
-    const systemPrompt = config.prompt;
-    const userPrompt = `
-User selected these options in the quiz: ${selectedTags.join(', ')}
-
-Available products:
-${JSON.stringify(productCatalog, null, 2)}
-
-Based on the user's selections, please:
-1. Recommend the top 3-5 most suitable products by their IDs
-2. Provide reasoning for each recommendation
-3. Give personalized guidance about their preferences
-
-Respond in JSON format:
-{
-  "productIds": ["product-id-1", "product-id-2", "product-id-3"],
-  "reasoning": "Explanation of why these products match",
-  "guidance": "Personalized tea guidance for the user"
-}
-`;
-
-    // Call Gemini API
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${config.model}:generateContent?key=${config.apiKey}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: systemPrompt + '\n\n' + userPrompt,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            topK: 40,
-            topP: 0.95,
-            maxOutputTokens: 1024,
-          },
-        }),
-      }
-    );
+    console.log('API response status:', response.status, response.statusText);
+    console.log('Recommendation source header:', response.headers.get('x-recommendation-source'));
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('API response error body:', errorText);
+      throw new Error(`Gemini API route failed: ${response.status} ${response.statusText}`);
     }
 
-    const data = await response.json();
-    const textResponse = data.candidates[0]?.content?.parts[0]?.text;
-
-    if (!textResponse) {
-      throw new Error('No response from Gemini');
-    }
-
-    // Parse JSON response from Gemini
-    const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
-    if (jsonMatch) {
-      const recommendation = JSON.parse(jsonMatch[0]);
-      return recommendation as GeminiRecommendation;
-    }
-
-    throw new Error('Could not parse Gemini response');
+    const recommendation = (await response.json()) as GeminiRecommendation;
+    console.log('✅ Gemini API route responded successfully');
+    console.log('Recommendation:', recommendation);
+    return recommendation;
   } catch (error) {
-    console.error('Gemini API error:', error);
+    console.error('❌ Gemini API route error:', error);
+    if (error instanceof Error) {
+      console.error('Error message:', error.message);
+      console.error('Error stack:', error.stack);
+    }
+    console.log('⚠️ Falling back to tag-based recommendations');
     return getFallbackRecommendations(answers, products);
   }
 }

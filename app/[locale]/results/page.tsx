@@ -1,33 +1,20 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import { notFound } from 'next/navigation';
 import { getGeminiRecommendations } from '@/lib/gemini';
-import { loadQuizConfig } from '@/lib/loadConfig';
+import { loadLocaleConfig } from '@/lib/loadConfig';
+import { Product, QuizAnswer, QuizQuestion } from '@/lib/schemas';
 
-interface QuizAnswer {
-  questionId: string;
-  selectedOptions: string[];
-}
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  image: string;
-  shopLink: string;
-  tags: string[];
-  attributes?: Record<string, string>;
-}
+export const runtime = 'nodejs';
 
 export default async function ResultsPage({
   params,
   searchParams,
 }: {
-  params: { locale: string };
-  searchParams: { answers?: string };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ answers?: string }>;
 }) {
-  const { locale } = params;
-  const answersParam = searchParams.answers;
+  const { locale } = await params;
+  const { answers: answersParam } = await searchParams;
 
   if (!answersParam) {
     return (
@@ -48,21 +35,27 @@ export default async function ResultsPage({
   }
 
   const answers: QuizAnswer[] = JSON.parse(decodeURIComponent(answersParam));
-  const configData = await loadQuizConfig(locale);
+  const config = await loadLocaleConfig(locale);
 
-  if (!configData) {
-    return <div>Configuration not found</div>;
+  if (!config) {
+    notFound();
   }
 
-  const { configuration, products } = configData;
+  const { configuration, products, questions } = config;
   const { resultPage, gemini } = configuration;
+
+  console.log('Gemini config:', gemini);
+  console.log('Products count:', products.length);
 
   // Get AI-powered recommendations
   const recommendations = await getGeminiRecommendations(
+    gemini || { enabled: false, model: '', prompt: '' },
+    (questions || []) as QuizQuestion[],
     answers,
-    products,
-    gemini || { enabled: false, model: '', apiKey: '', prompt: '' }
+    products as Product[]
   );
+
+  console.log('Recommendations received:', recommendations);
 
   const recommendedProducts = products.filter((p: Product) =>
     recommendations.productIds.includes(p.id)

@@ -21,41 +21,29 @@ export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const configParam = request.nextUrl.searchParams.get('config');
   const configFile = configParam || process.env.DEFAULT_CONFIG_FILE || 'example.json';
-  
+
   // Get base URL for fetching config
   const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}`;
-  
+
   // Get all locales to check if pathname already has one
   const locales = await getAllLocales(configFile, baseUrl);
   console.log('Middleware - Locales from config:', locales);
   console.log('Middleware - Incoming request pathname:', pathname);
-  
+
   // Check if pathname already has a locale
   const hasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
-  
+
   // If already has locale, just pass through
   if (hasLocale) {
-    const response = NextResponse.next();
-    // Pass config parameter as header if it exists
-    if (configParam) {
-      response.headers.set('x-config-file', configParam);
-    }
-    return response;
+    return NextResponse.next();
   }
-  
+
   // No locale in pathname, redirect to first locale
   const firstLocale = locales[0] || 'en';
   request.nextUrl.pathname = `/${firstLocale}${pathname}`;
-  const response = NextResponse.redirect(request.nextUrl);
-  
-  // Pass config parameter as header if it exists
-  if (configParam) {
-    response.headers.set('x-config-file', configParam);
-  }
-  
-  return response;
+  return NextResponse.redirect(request.nextUrl);
 }
 
 export const config = {
