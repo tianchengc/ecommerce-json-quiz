@@ -93,8 +93,10 @@ function getFallbackRecommendations(
     .slice(0, 5)
     .map(item => item.product.id);
 
+  // Provide empty reasons for fallback
   return {
     productIds: recommendations,
+    reasons: Object.fromEntries(recommendations.map(id => [id, 'Recommended based on your quiz answers.'])),
     reasoning: 'Recommendations based on your quiz answers and matching product attributes.',
     guidance: 'These products align with your preferences and needs. Explore each option to find your perfect match!',
   };
