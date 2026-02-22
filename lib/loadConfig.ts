@@ -12,8 +12,7 @@ let configSingleton: FullQuizConfig | null | undefined = undefined;
  * Uses a singleton pattern - the file is read once on first call and cached
  * for the lifetime of the server process.
  *
- * Requires Node.js runtime. Remove `export const runtime = 'edge'` from any
- * layout or page that uses this function.
+ * OpenNext automatically routes to Node.js runtime for routes that need fs access.
  */
 export async function loadFullConfig(): Promise<FullQuizConfig | null> {
   // Return cached singleton if already loaded

@@ -57,3 +57,6 @@ public/config/*.json
 *.njsproj
 *.sln
 *.sw?
+
+# OpenNext build output
+.open-next

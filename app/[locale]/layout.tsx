@@ -4,8 +4,6 @@ import { notFound } from 'next/navigation';
 import { loadFullConfig, getSupportedLocales, isValidLocale, loadLocaleConfig } from '@/lib/loadConfig';
 import { QuizLocaleConfig } from '@/lib/schemas';
 
-export const runtime = 'nodejs';
-
 export async function generateMetadata({
   params,
 }: {
