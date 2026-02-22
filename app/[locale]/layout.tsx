@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { loadFullConfig, getSupportedLocales, isValidLocale, loadLocaleConfig } from '@/lib/loadConfig';
+import { loadFullConfig, isValidLocale, loadLocaleConfig } from '@/lib/loadConfig';
 import { QuizLocaleConfig } from '@/lib/schemas';
 
 export async function generateMetadata({
@@ -40,10 +40,10 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const fullConfig = await loadFullConfig();
+  await loadFullConfig();
 
   // Validate locale exists in config
-  if (!fullConfig || !isValidLocale(locale, fullConfig)) {
+  if (!isValidLocale(locale)) {
     notFound();
   }
 

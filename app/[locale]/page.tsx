@@ -1,7 +1,7 @@
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { loadLocaleConfig, loadFullConfig, getSupportedLocales } from '@/lib/loadConfig';
+import { loadLocaleConfig, getSupportedLocales } from '@/lib/loadConfig';
 import { LanguageSelector } from '@/components/LanguageSelectorLocale';
 
 export default async function WelcomePage({
@@ -11,14 +11,11 @@ export default async function WelcomePage({
 }) {
   const { locale } = await params;
 
-  const [config, fullConfig] = await Promise.all([
-    loadLocaleConfig(locale),
-    loadFullConfig(),
-  ]);
+  const config = await loadLocaleConfig(locale);
 
   if (!config) notFound();
 
-  const languages = fullConfig ? getSupportedLocales(fullConfig) : [locale];
+  const languages = getSupportedLocales();
   const { welcomePage } = config.configuration;
 
   return (

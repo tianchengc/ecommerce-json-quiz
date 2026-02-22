@@ -1,32 +1,15 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-
-// Get all locales from config file using fetch (Edge Runtime compatible)
-async function getAllLocales(configFile: string, baseUrl: string): Promise<string[]> {
-  try {
-    const configUrl = `${baseUrl}/config/${configFile}`;
-    const response = await fetch(configUrl);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch config: ${response.status}`);
-    }
-    const data = await response.json();
-    return Object.keys(data);
-  } catch (error) {
-    console.error('Failed to load config:', error);
-    return ['en']; // Fallback
-  }
-}
+import { loadFullConfig, getSupportedLocales } from '@/lib/loadConfig';
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const configParam = request.nextUrl.searchParams.get('config');
-  const configFile = configParam || process.env.DEFAULT_CONFIG_FILE || 'example.json';
 
-  // Get base URL for fetching config
-  const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}`;
-
-  // Get all locales to check if pathname already has one
-  const locales = await getAllLocales(configFile, baseUrl);
+  // Get all locales from the bundled configuration (Edge-compatible)
+  await loadFullConfig();
+  const locales = getSupportedLocales();
+  
   console.log('Middleware - Locales from config:', locales);
   console.log('Middleware - Incoming request pathname:', pathname);
 
