@@ -34,7 +34,7 @@
         "subject": "New Quiz Results Submitted"
       },
       "gemini": {
-        "enabled": true,
+        "enabled": false,
         "model": "gemini-3-flash-preview",
         "prompt": "Based on the user's quiz answers, provide personalized product recommendations and tea guidance."
       }
@@ -180,7 +180,7 @@
         "subject": "Nouveaux résultats de quiz soumis"
       },
       "gemini": {
-        "enabled": true,
+        "enabled": false,
         "model": "gemini-1.5-flash",
         "prompt": "En fonction des réponses de l'utilisateur au quiz, fournissez des recommandations de produits personnalisées et des conseils sur le thé."
       }
