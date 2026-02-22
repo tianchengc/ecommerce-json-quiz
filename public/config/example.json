@@ -13,7 +13,7 @@
       },
       "resultPage": {
         "showPrice": true,
-        "showViewAllOptions": true,
+        "showViewAllOptions": false,
         "loadingTitle": "Finding Your Perfect Match...",
         "loadingDescription": "We're analyzing your preferences to recommend the best products for you.",
         "noMatchesTitle": "No Perfect Matches Found",
@@ -159,7 +159,7 @@
       },
       "resultPage": {
         "showPrice": true,
-        "showViewAllOptions": true,
+        "showViewAllOptions": false,
         "loadingTitle": "Recherche de votre correspondance parfaite...",
         "loadingDescription": "Nous analysons vos préférences pour vous recommander les meilleurs produits.",
         "noMatchesTitle": "Aucune correspondance parfaite trouvée",
