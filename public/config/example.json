@@ -181,7 +181,7 @@
       },
       "gemini": {
         "enabled": false,
-        "model": "gemini-1.5-flash",
+        "model": "gemini-3-flash-preview",
         "prompt": "En fonction des réponses de l'utilisateur au quiz, fournissez des recommandations de produits personnalisées et des conseils sur le thé."
       }
     },

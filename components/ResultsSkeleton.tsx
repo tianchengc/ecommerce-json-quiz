@@ -25,12 +25,12 @@ export function ResultsSkeleton() {
           {/* Product Cards Skeleton */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 mb-6 sm:mb-8">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-xl shadow-sm overflow-hidden animate-pulse">
+              <div key={i} className="bg-white rounded-xl shadow-sm overflow-hidden animate-pulse flex flex-col sm:flex-row">
                 {/* Image Placeholder */}
-                <div className="h-40 sm:h-48 bg-gradient-to-br from-gray-200 to-gray-100"></div>
+                <div className="h-40 sm:h-48 sm:w-48 bg-gradient-to-br from-gray-200 to-gray-100 flex-shrink-0"></div>
 
                 {/* Content Placeholder */}
-                <div className="p-4 sm:p-5">
+                <div className="p-4 sm:p-5 flex flex-col flex-grow">
                   {/* Badge */}
                   {i === 1 && (
                     <div className="h-3 bg-teal-200 rounded-full w-20 mb-3"></div>
@@ -42,10 +42,13 @@ export function ResultsSkeleton() {
                   {/* Price */}
                   <div className="h-4 bg-gray-200 rounded w-1/3 mb-3"></div>
 
-                  {/* Description */}
-                  <div className="space-y-2 mb-3">
-                    <div className="h-3 bg-gray-200 rounded w-full"></div>
-                    <div className="h-3 bg-gray-200 rounded w-4/5"></div>
+                  {/* Short Description */}
+                  <div className="h-3 bg-gray-200 rounded w-full mb-2"></div>
+
+                  {/* Keyword Tags */}
+                  <div className="flex flex-wrap gap-1 mb-3">
+                    <div className="h-3 bg-teal-100 rounded-full w-12"></div>
+                    <div className="h-3 bg-teal-100 rounded-full w-10"></div>
                   </div>
 
                   {/* Why it's a match */}

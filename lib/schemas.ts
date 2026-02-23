@@ -75,10 +75,21 @@ export interface QuizConditions {
   not?: string[];
 }
 
+export interface GeminiRequestBody {
+  answers: QuizAnswer[];
+  products: Product[];
+  config: GeminiConfig;
+  questions?: QuizQuestion[];
+}
+
+export interface ProductRecommendation {
+  id: string;
+  description: string;
+  tags: string[];
+}
+
 export interface GeminiRecommendation {
-  productIds: string[];
-  reasons: Record<string, string>; // productId -> markdown reason
-  guidance: string; // brew guide, markdown
+  recommends: ProductRecommendation[];
   reasoning: string; // how we chose, markdown
 }
 

@@ -6,12 +6,12 @@ import { FullQuizConfig, QuizLocaleConfig } from './schemas';
 // This forces Next.js to bundle the JSON data directly into your JavaScript code!
 // (Adjust the path if your file is located elsewhere)
 import exampleConfig from '../public/config/example.json';
-// import quizConfig from '../public/config/quiz.json'; 
+import quizConfig from '../public/config/quiz.json'; 
 
 // 2. Create a registry to map the filenames to the imported data
 const configRegistry: Record<string, FullQuizConfig> = {
   'example.json': exampleConfig as FullQuizConfig,
-  // 'quiz.json': quizConfig as FullQuizConfig,
+  'quiz.json': quizConfig as FullQuizConfig,
 };
 
 // Singleton cache - loaded once and reused across all requests

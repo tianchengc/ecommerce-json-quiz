@@ -1,50 +1,6 @@
 import { NextResponse } from 'next/server';
-import { GoogleGenAI } from '@google/genai';
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: string;
-  image: string;
-  shopLink: string;
-  tags: string[];
-  attributes?: Record<string, string>;
-}
-
-interface QuizAnswer {
-  questionId: string;
-  selectedOptions: string[];
-}
-
-interface QuizQuestion {
-  id: string;
-  text: string;
-  options: Array<{
-    id: string;
-    text: string;
-  }>;
-}
-
-interface GeminiConfig {
-  enabled: boolean;
-  model: string;
-  prompt: string;
-}
-
-interface GeminiRecommendation {
-  productIds: string[];
-  reasons: Record<string, string>; // productId -> markdown reason
-  guidance: string; // brew guide, markdown
-  reasoning: string; // how we chose, markdown
-}
-
-interface GeminiRequestBody {
-  answers: QuizAnswer[];
-  products: Product[];
-  config: GeminiConfig;
-  questions?: QuizQuestion[];
-}
+import { GoogleGenAI, Type } from '@google/genai';
+import { GeminiRecommendation, GeminiRequestBody, Product, QuizAnswer } from '@/lib/schemas';
 
 export const runtime = 'nodejs';
 
@@ -73,21 +29,11 @@ export async function POST(request: Request) {
 
   const { answers, products, config, questions = [] } = body;
 
-  console.log('=== API /recommend Debug ===');
-  console.log('Config:', config);
-  console.log('Config enabled:', config?.enabled);
-  console.log('API key present:', !!process.env.GEMINI_API_KEY);
-  console.log('API key length:', process.env.GEMINI_API_KEY?.length);
-
   const apiKey = process.env.GEMINI_API_KEY;
 
-  if (!config?.enabled) {
-    console.log('⚠️ Gemini disabled in config');
-    return jsonWithSource(getFallbackRecommendations(answers, products), 'fallback');
-  }
-
-  if (!apiKey) {
-    console.log('⚠️ GEMINI_API_KEY not set in environment');
+  if (!config?.enabled || !apiKey) {
+    const fallbackSource = !config?.enabled ? 'fallback (Gemini disabled)' : 'fallback (API key missing)';
+    console.log(`⚠️ Using fallback: ${fallbackSource}`);
     return jsonWithSource(getFallbackRecommendations(answers, products), 'fallback');
   }
 
@@ -118,12 +64,14 @@ export async function POST(request: Request) {
       attributes: product.attributes,
     }));
 
-    const systemPrompt = config.prompt ||
-      `You are an expert tea and wellness product recommendation assistant. Your job is to:
+    const systemPrompt = config.prompt || 
+      `You are a product recommendation assistant. Your job is to:
       - Analyze customer quiz responses and match them with the best products from the catalog.
-      - For each recommended product, provide a short, markdown-formatted reason (1-2 lines, bullet or sentence) why it matches the user's preferences (keywords, features, or benefits).
-      - Write a short, markdown-formatted brewing guide for the recommended teas ("Your Brewing Guide").
-      - Write a short, markdown-formatted explanation of how you chose these products ("How We Chose").
+      - For each recommended product, provide:
+        - a short description (1-2 sentences, highglight key features)
+        - a list of keyword tags (usage, features, characteristics, etc.)
+        - a markdown reason why it matches
+      - Also, provide a markdown explanation of your specific thinking path for why you chose these products for the user.
       - Keep all markdown simple and readable for end users.
       - Respond ONLY with valid JSON (no markdown/code blocks around it).
       `;
@@ -144,16 +92,20 @@ export async function POST(request: Request) {
       # Response Format:
       Respond ONLY with valid JSON (no markdown, no code blocks, no additional text):
       {
-        "productIds": ["product-id-1", "product-id-2", "product-id-3"],
-        "reasons": { "product-id-1": "- Reason for product 1 (markdown)", ... },
-        "guidance": "Your Brewing Guide (markdown)",
+        "recommends": [
+          {
+            "id": "product-id-1",
+            "description": "Short description for product 1",
+            "tags": ["tag1", "tag2"]
+          },
+          ...
+        ],
         "reasoning": "How We Chose (markdown)"
       }
       `;
 
     const genAI = new GoogleGenAI({ apiKey });
 
-    console.log('🚀 Calling Gemini with model:', config.model);
     const result = await genAI.models.generateContent({
       model: config.model,
       contents: systemPrompt + '\n\n' + userPrompt,
@@ -161,31 +113,81 @@ export async function POST(request: Request) {
         temperature: 0.7,
         topK: 40,
         topP: 0.95,
-        maxOutputTokens: 2048,
+        maxOutputTokens: 8192,
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            recommends: {
+              type: Type.ARRAY,
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  id: { type: Type.STRING },
+                  description: { type: Type.STRING },
+                  tags: {
+                    type: Type.ARRAY,
+                    items: { type: Type.STRING },
+                  },
+                },
+                required: ['id', 'description', 'tags'],
+              },
+            },
+            reasoning: { type: Type.STRING },
+          },
+          required: ['recommends', 'reasoning'],
+        },
       },
     });
 
-    console.log('✅ Gemini responded');
     const textResponse = result.text;
-    console.log('Response text length:', textResponse?.length);
+    console.log('✅ Gemini responded:', textResponse);
 
     if (!textResponse) {
       throw new Error('No response from Gemini');
     }
 
     let cleanedResponse = textResponse.trim();
+    console.log('After trim:', cleanedResponse);
 
     if (cleanedResponse.startsWith('```')) {
       cleanedResponse = cleanedResponse.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+      console.log('After markdown cleanup:', cleanedResponse);
     }
-
+    
+    // Try to parse JSON
+    let recommendation: GeminiRecommendation | null = null;
+    
+    // First try to find and extract JSON object
     const jsonMatch = cleanedResponse.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      const recommendation = JSON.parse(jsonMatch[0]);
-      return jsonWithSource(recommendation as GeminiRecommendation, 'gemini');
+      console.log('Matched JSON string (first 200 chars):', jsonMatch[0].substring(0, 200));
+      try {
+        recommendation = JSON.parse(jsonMatch[0], (key, value) => {
+          // Validate structure has required fields
+          if (key === '' && (!Array.isArray(value.recommends) || typeof value.reasoning !== 'string')) {
+            console.warn('⚠️ Recommendation missing required fields, attempting to repair...');
+            // Provide defaults if missing
+            return {
+              recommends: Array.isArray(value.recommends) ? value.recommends : [],
+              reasoning: typeof value.reasoning === 'string' ? value.reasoning : 'Based on your preferences'
+            };
+          }
+          return value;
+        });
+        console.log('Successfully parsed recommendation');
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        recommendation = null;
+      }
+    }
+    
+    if (recommendation && recommendation.recommends && recommendation.recommends.length > 0) {
+      console.log(`Got ${recommendation.recommends.length} recommendations from Gemini`);
+      return jsonWithSource(recommendation, 'gemini');
     }
 
-    throw new Error('Could not parse Gemini response');
+    throw new Error('Could not parse Gemini response: ' + (cleanedResponse.substring(0, 100) || 'empty'));
   } catch (error) {
     console.error('❌ Gemini API error:', error);
     if (error instanceof Error) {
@@ -206,28 +208,16 @@ function getFallbackRecommendations(
   const scoredProducts = products.map(product => {
     const matchingTags = product.tags.filter(tag => selectedTags.includes(tag));
     return {
-      product,
-      score: matchingTags.length,
-      reason: matchingTags.length > 0
-        ? `- Matched tags: ${matchingTags.join(', ')}`
-        : '- General fit for your preferences',
+      id: product.id,
+      description: product.description,
+      tags: product.tags,
     };
   });
 
-  const recommendations = scoredProducts
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
-
-  const productIds = recommendations.map(item => item.product.id);
-  const reasons: Record<string, string> = {};
-  recommendations.forEach(item => {
-    reasons[item.product.id] = item.reason;
-  });
+  const recommends = scoredProducts.slice(0, 5);
 
   return {
-    productIds,
-    reasons,
-    guidance: '• Use fresh, filtered water.\n• Steep at the recommended temperature and time for best flavor.\n• Enjoy your tea mindfully!',
-    reasoning: 'Products were selected based on the number of matching tags with your quiz answers. The more tags matched, the higher the product appears in your results.',
+    recommends,
+    reasoning: 'These products were chosen by matching your answers to product features, usage, and characteristics. Each product highlights key aspects that align with your needs.',
   };
 }
