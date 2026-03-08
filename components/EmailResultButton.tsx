@@ -54,7 +54,7 @@ const EmailResultButton: React.FC<EmailResultButtonProps> = ({
   return (
     <>
       <button
-        className="bg-[#bfa16b] text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-[#a88c5b] transition w-full"
+        className="bg-[#bfa16b] text-white text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold shadow hover:bg-[#a88c5b] transition w-full"
         onClick={() => setOpen(true)}
       >
         {sendResultButtonText || ui.buttonText || "Send Results to Email"}
@@ -68,8 +68,8 @@ const EmailResultButton: React.FC<EmailResultButtonProps> = ({
         setEmail={setEmail}
         ui={ui}
       />
-      {success && <div className="text-green-600 mt-2 text-center">{success}</div>}
-      {error && <div className="text-red-600 mt-2 text-center">{error}</div>}
+      {success && <div className="text-green-600 text-sm mt-2 text-center">{success}</div>}
+      {error && <div className="text-red-600 text-sm mt-2 text-center">{error}</div>}
     </>
   );
 };

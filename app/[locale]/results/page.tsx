@@ -58,10 +58,10 @@ async function ResultsContent({
         <div className="pt-6 pb-8 sm:pt-10 sm:pb-12 lg:pt-16 lg:pb-20 p-4 sm:p-5 lg:p-6 max-w-6xl mx-auto w-full">
           {/* Hero Header */}
           <div className="text-center mb-6 sm:mb-8 lg:mb-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
               {resultPage.successTitle}
             </h1>
-            <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            <p className="text-sm sm:text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
               {successDescription}
             </p>
           </div>
@@ -136,7 +136,7 @@ async function ResultsContent({
                     </div>
 
                     {/* Product Content */}
-                    <div className="p-4 sm:p-5 flex flex-col flex-grow justify-center lg:pl-8">
+                    <div className="p-3 sm:p-5 flex flex-col flex-grow justify-center lg:pl-8">
 
                       {/* Title with Shop Icon */}
                       <div className="flex items-center mb-2 gap-2">
@@ -147,7 +147,7 @@ async function ResultsContent({
                             rel="noopener noreferrer"
                             className="flex items-center group/title"
                           >
-                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow group-hover/title:underline">
+                            <h3 className="text-base sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow group-hover/title:underline">
                               {product.name || product.id}
                             </h3>
                             <span className="ml-2 text-teal-600 hover:text-teal-800 flex items-center" title={resultPage.shopNowButtonText}>
@@ -160,7 +160,7 @@ async function ResultsContent({
                             </span>
                           </a>
                         ) : (
-                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow">
+                          <h3 className="text-base sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow">
                             {product.name || product.id}
                           </h3>
                         )}
@@ -168,7 +168,7 @@ async function ResultsContent({
 
 
                       {/* Short Description */}
-                      <span className="text-sm text-gray-600 mb-2 flex-grow">
+                      <span className="text-xs sm:text-sm text-gray-600 mb-2 flex-grow">
                         {product.description}
                       </span>
 
@@ -192,11 +192,11 @@ async function ResultsContent({
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl p-8 sm:p-10 text-center shadow-sm mb-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-3">
+            <div className="bg-white rounded-xl p-6 sm:p-10 text-center shadow-sm mb-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3">
                 {resultPage.noMatchesTitle}
               </h2>
-              <p className="text-gray-600 mb-6">
+              <p className="text-sm sm:text-base text-gray-600 mb-6">
                 {resultPage.noMatchesDescription}
               </p>
             </div>
@@ -221,14 +221,14 @@ async function ResultsContent({
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center pb-4 sm:pb-6">
             <Link
               href={`/${locale}`}
-              className="bg-teal-600 hover:bg-teal-700 text-white text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+              className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white text-sm sm:text-base text-center font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors duration-200"
             >
               {resultPage.retakeButtonText}
             </Link>
             {resultPage.showViewAllOptions && (
               <a
                 href="#"
-                className="border-2 border-teal-600 hover:bg-teal-50 text-teal-600 text-center font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                className="w-full sm:w-auto border-2 border-teal-600 hover:bg-teal-50 text-teal-600 text-sm sm:text-base text-center font-semibold py-2.5 sm:py-3 px-4 sm:px-6 rounded-lg transition-colors duration-200"
               >
                 {resultPage.browseAllButtonText}
               </a>
@@ -259,7 +259,7 @@ export default async function ResultsPage({
           </h1>
           <Link
             href={`/${locale}`}
-            className="inline-block bg-teal-600 text-white px-6 py-3 rounded-lg hover:bg-teal-700 transition-colors"
+            className="inline-block bg-teal-600 text-white text-sm sm:text-base px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:bg-teal-700 transition-colors"
           >
             {locale === 'fr' ? 'Recommencer le quiz' : 'Retake Quiz'}
           </Link>
