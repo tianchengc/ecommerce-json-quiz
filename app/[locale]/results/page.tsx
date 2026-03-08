@@ -6,6 +6,7 @@ import { loadLocaleConfig } from '@/lib/loadConfig';
 import { Product, QuizAnswer, QuizQuestion } from '@/lib/schemas';
 import ReactMarkdown from 'react-markdown';
 import { ResultsSkeleton } from '@/components/ResultsSkeleton';
+import EmailResultButton from '@/components/EmailResultButton';
 
 async function ResultsContent({
   locale,
@@ -46,10 +47,15 @@ async function ResultsContent({
     .replace('{count}', count.toString())
     .replace('{plural}', plural);
 
+  // Email button config
+  const emailConfig = configuration.email;
+  const sendResultButtonText = resultPage.sendResultButtonText || emailConfig?.ui?.buttonText;
+  const showEmailButton = emailConfig?.enabled && emailConfig?.ui;
+
   return (
     <div className="w-full h-full flex flex-col bg-gray-50">
       <div className="flex-1 overflow-y-auto">
-        <div className="p-4 sm:p-5 lg:p-6 max-w-6xl mx-auto w-full">
+        <div className="pt-6 pb-8 sm:pt-10 sm:pb-12 lg:pt-16 lg:pb-20 p-4 sm:p-5 lg:p-6 max-w-6xl mx-auto w-full">
           {/* Hero Header */}
           <div className="text-center mb-6 sm:mb-8 lg:mb-10">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
@@ -59,6 +65,21 @@ async function ResultsContent({
               {successDescription}
             </p>
           </div>
+
+          {/* Email Me Result Button (top, mobile/desktop) */}
+          {showEmailButton && (
+            <div className="flex justify-center mb-6 sm:mb-8 lg:mb-10">
+              <div className="w-full max-w-xs mx-auto">
+                <EmailResultButton
+                  ui={emailConfig.ui}
+                  recommendations={recommendedProducts}
+                  reasoning={recommendations.reasoning || ''}
+                  locale={locale}
+                  sendResultButtonText={sendResultButtonText}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Product Grid - Primary Focus */}
           {recommendedProducts.length > 0 ? (

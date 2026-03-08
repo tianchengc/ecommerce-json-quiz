@@ -24,14 +24,32 @@
         "retakeButtonText": "Retake Quiz",
         "browseAllButtonText": "Browse All Products",
         "shopNowButtonText": "Shop Now",
-        "takeAgainButtonText": "Take Quiz Again"
+        "takeAgainButtonText": "Take Quiz Again",
+        "sendResultButtonText": "Keep The Results"
       },
       "email": {
         "enabled": false,
         "adminEmail": "admin@yourdomain.com",
         "fromEmail": "noreply@yourdomain.com",
         "fromName": "Quiz Widget",
-        "subject": "New Quiz Results Submitted"
+        "subject": "New Quiz Results Submitted",
+        "template": {
+          "brandName": "Quiz Widget",
+          "title": "Your Personalized Recommendations",
+          "subtitle": "We selected these recommendations based on your survey answers.",
+          "ctaText": "View Product",
+          "footerText": "Sent from Quiz Widget"
+        },
+        "ui": {
+          "buttonText": "Keep The Results",
+          "modalTitle": "Email Your Results",
+          "modalDescription": "Enter your email to receive your quiz results and recommendations.",
+          "emailPlaceholder": "Your email address",
+          "sendButton": "Send Email",
+          "sendingText": "Sending...",
+          "successMessage": "Results sent! Check your inbox.",
+          "errorMessage": "Failed to send email. Please try again."
+        }
       },
       "gemini": {
         "enabled": false,
@@ -170,14 +188,32 @@
         "retakeButtonText": "Refaire le quiz",
         "browseAllButtonText": "Parcourir tous les produits",
         "shopNowButtonText": "Acheter maintenant",
-        "takeAgainButtonText": "Refaire le quiz"
+        "takeAgainButtonText": "Refaire le quiz",
+        "sendResultButtonText": "Envoyez-moi mon résultat"
       },
       "email": {
         "enabled": false,
         "adminEmail": "admin@yourdomain.com",
         "fromEmail": "noreply@yourdomain.com",
         "fromName": "Widget de Quiz",
-        "subject": "Nouveaux résultats de quiz soumis"
+        "subject": "Nouveaux résultats de quiz soumis",
+        "template": {
+          "brandName": "Widget de Quiz",
+          "title": "Vos recommandations personnalisées",
+          "subtitle": "Nous avons sélectionné ces recommandations en fonction de vos réponses au sondage.",
+          "ctaText": "Voir le produit",
+          "footerText": "Envoyé depuis Widget de Quiz"
+        },
+        "ui": {
+          "buttonText": "Envoyez-moi mon résultat",
+          "modalTitle": "Envoyer vos résultats par courriel",
+          "modalDescription": "Entrez votre courriel pour recevoir vos résultats du quiz et recommandations.",
+          "emailPlaceholder": "Votre adresse courriel",
+          "sendButton": "Envoyer",
+          "sendingText": "Envoi en cours...",
+          "successMessage": "Résultats envoyés ! Vérifiez votre boîte de réception.",
+          "errorMessage": "Échec de l'envoi du courriel. Veuillez réessayer."
+        }
       },
       "gemini": {
         "enabled": false,

@@ -56,6 +56,36 @@ export interface resultPageConfiguration {
   browseAllButtonText: string;
   shopNowButtonText: string;
   takeAgainButtonText: string;
+  sendResultButtonText?: string;
+}
+
+export interface EmailUIConfig {
+  buttonText: string;
+  modalTitle: string;
+  modalDescription: string;
+  emailPlaceholder: string;
+  sendButton: string;
+  sendingText: string;
+  successMessage: string;
+  errorMessage: string;
+}
+
+export interface EmailTemplateConfig {
+  brandName?: string;
+  title?: string;
+  subtitle?: string;
+  ctaText?: string;
+  footerText?: string;
+}
+
+export interface EmailConfig {
+  enabled: boolean;
+  adminEmail: string;
+  fromEmail: string;
+  fromName: string;
+  subject: string;
+  ui: EmailUIConfig;
+  template?: EmailTemplateConfig;
 }
 
 export interface QuizLocaleConfig {
@@ -63,6 +93,7 @@ export interface QuizLocaleConfig {
     general: generalConfiguration;
     welcomePage: welcomePageConfiguration;
     resultPage: resultPageConfiguration;
+    email: EmailConfig;
     gemini?: GeminiConfig;
   };
   questions: Array<QuizQuestion>;
