@@ -22,8 +22,8 @@ const EmailModal: React.FC<EmailModalProps> = ({
 }) => {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 p-4 flex items-center justify-center bg-black bg-opacity-40 z-50">
-      <div className="bg-white rounded-lg p-5 sm:p-8 shadow-lg max-w-md w-full">
+    <div className="fixed inset-0 p-4 flex items-start sm:items-center justify-center bg-black bg-opacity-40 z-50">
+      <div className="bg-white rounded-lg p-5 sm:p-8 shadow-lg max-w-md w-full mt-8 sm:mt-0">
         <h2 className="text-lg sm:text-xl font-bold mb-2">{ui?.modalTitle}</h2>
         <p className="mb-4 text-sm sm:text-base text-[#4b5563]">{ui?.modalDescription}</p>
         <input
