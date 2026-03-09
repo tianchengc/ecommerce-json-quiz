@@ -19,7 +19,7 @@ export default async function WelcomePage({
   const { welcomePage } = config.configuration;
 
   return (
-    <main className="h-full overflow-y-auto flex items-center justify-center bg-gray-50 p-4 sm:p-6">
+    <main className="h-full overflow-y-auto flex items-start justify-start sm:items-center sm:justify-center bg-gray-50 p-4 sm:p-6">
       <div className="w-full max-w-3xl bg-white rounded-xl shadow-md p-6 sm:p-8 lg:p-10">
         <div className="flex justify-end mb-4">
           <LanguageSelector currentLocale={locale} languages={languages} />

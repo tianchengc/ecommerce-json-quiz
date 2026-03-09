@@ -48,9 +48,9 @@ export default async function LocaleLayout({
   }
 
   return (
-    <div lang={locale} className="w-full h-full min-h-screen bg-transparent flex items-center justify-center">
-      <div className="w-full h-full max-w-[640px] max-h-[720px] mx-auto bg-white flex flex-col justify-center">
-        <div className="flex-1 min-h-0 overflow-auto flex justify-center">
+    <div lang={locale} className="w-full h-full min-h-screen bg-transparent flex items-start justify-start sm:items-center sm:justify-center">
+      <div className="w-full h-full max-w-[640px] mx-auto bg-white flex flex-col justify-start sm:justify-center">
+        <div className="flex-1 min-h-0 overflow-auto flex justify-start sm:justify-center">
           {children}
         </div>
       </div>

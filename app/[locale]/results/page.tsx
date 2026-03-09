@@ -84,15 +84,15 @@ async function ResultsContent({
           {/* Product Grid - Primary Focus */}
           {recommendedProducts.length > 0 ? (
             <div className="mb-8 sm:mb-10 lg:mb-12">
-              <div className="flex flex-col gap-4 sm:gap-5 lg:gap-6">
+              <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:gap-6">
                 {recommendedProducts.map((product: any, index: number) => (
                   <div
                     key={product.id}
-                    className="bg-white rounded-xl border border-gray-300 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden flex flex-col lg:flex-row group min-h-0 lg:min-h-[200px]"
+                    className="bg-white rounded-xl border border-gray-300 shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden flex flex-col group min-h-0 h-full"
                   >
 
                     {/* Product Image (with possible Best Match overlay) */}
-                    <div className="relative w-full h-48 sm:h-56 lg:h-auto lg:w-48 bg-gray-100 overflow-hidden flex-shrink-0 mx-auto lg:mx-0 lg:h-full flex items-stretch">
+                    <div className="relative w-full h-32 sm:h-44 bg-gray-100 overflow-hidden flex-shrink-0 flex items-stretch">
                       {/* Best Match Tag/Icon Overlay (moved here for correct stacking) */}
                       {index === 0 && (
                         <div className="absolute left-2 top-2 z-10">
@@ -106,7 +106,7 @@ async function ResultsContent({
                           href={product.shopLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="block w-full h-full h-auto lg:h-full"
+                          className="block w-full h-full"
                           tabIndex={-1}
                           style={{ height: '100%' }}
                         >
@@ -114,7 +114,7 @@ async function ResultsContent({
                             <img
                               src={product.image}
                               alt={product.name || product.id}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 min-h-0 lg:min-h-full lg:h-full"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                               style={{ width: '100%', height: '100%', minHeight: 0, maxHeight: '100%' }}
                             />
                           ) : (
@@ -126,7 +126,7 @@ async function ResultsContent({
                           <img
                             src={product.image}
                             alt={product.name || product.id}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 min-h-0 lg:min-h-full lg:h-full"
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             style={{ width: '100%', height: '100%', minHeight: 0, maxHeight: '100%' }}
                           />
                         ) : (
@@ -136,7 +136,7 @@ async function ResultsContent({
                     </div>
 
                     {/* Product Content */}
-                    <div className="p-3 sm:p-5 flex flex-col flex-grow justify-center lg:pl-8">
+                    <div className="p-3 sm:p-4 flex flex-col flex-grow">
 
                       {/* Title with Shop Icon */}
                       <div className="flex items-center mb-2 gap-2">
@@ -147,7 +147,7 @@ async function ResultsContent({
                             rel="noopener noreferrer"
                             className="flex items-center group/title"
                           >
-                            <h3 className="text-base sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow group-hover/title:underline">
+                            <h3 className="text-sm sm:text-base font-bold text-gray-900 line-clamp-2 flex-grow group-hover/title:underline">
                               {product.name || product.id}
                             </h3>
                             <span className="ml-2 text-teal-600 hover:text-teal-800 flex items-center" title={resultPage.shopNowButtonText}>
@@ -160,7 +160,7 @@ async function ResultsContent({
                             </span>
                           </a>
                         ) : (
-                          <h3 className="text-base sm:text-xl font-bold text-gray-900 line-clamp-2 flex-grow">
+                          <h3 className="text-sm sm:text-base font-bold text-gray-900 line-clamp-2 flex-grow">
                             {product.name || product.id}
                           </h3>
                         )}
@@ -168,7 +168,7 @@ async function ResultsContent({
 
 
                       {/* Short Description */}
-                      <span className="text-xs sm:text-sm text-gray-600 mb-2 flex-grow">
+                      <span className="text-xs sm:text-sm text-gray-600 mb-2 line-clamp-3 flex-grow">
                         {product.description}
                       </span>
 
@@ -252,7 +252,7 @@ export default async function ResultsPage({
 
   if (!answersParam) {
     return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full h-full flex items-start justify-start sm:items-center sm:justify-center bg-gray-50 px-4 pt-6 sm:pt-0">
         <div className="text-center">
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
             {locale === 'fr' ? 'Aucune réponse fournie' : 'No Answers Provided'}
