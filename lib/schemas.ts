@@ -9,19 +9,34 @@ export interface Product {
   attributes?: Record<string, string>;
 }
 
-export interface QuizQuestion {
+export interface QuizQuestionOption {
   id: string;
   text: string;
-  type: 'single-select' | 'multi-select';
-  options: Array<{
-    id: string;
-    text: string;
-  }>;
 }
+
+export interface BaseQuizQuestion {
+  id: string;
+  text: string;
+  helperText?: string;
+}
+
+export interface SelectQuizQuestion extends BaseQuizQuestion {
+  type: 'single-select' | 'multi-select';
+  options: QuizQuestionOption[];
+}
+
+export interface TextareaQuizQuestion extends BaseQuizQuestion {
+  type: 'textarea';
+  placeholder?: string;
+  maxLength?: number;
+}
+
+export type QuizQuestion = SelectQuizQuestion | TextareaQuizQuestion;
 
 export interface QuizAnswer {
   questionId: string;
   selectedOptions: string[];
+  textContent?: string;
 }
 
 export interface generalConfiguration {
@@ -121,7 +136,9 @@ export interface ProductRecommendation {
 
 export interface GeminiRecommendation {
   recommends: ProductRecommendation[];
-  reasoning: string; // how we chose, markdown
+  guidance?: string;
+  thinkingProcess?: string; // streamed model analysis in markdown
+  reasoning?: string; // backward-compat legacy field
 }
 
 export type LocalizedString = string | Record<string, string>;

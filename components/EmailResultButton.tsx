@@ -5,7 +5,9 @@ import EmailModal from "./EmailModal";
 interface EmailResultButtonProps {
   ui: any;
   recommendations: any;
-  reasoning: string;
+  guidance?: string;
+  thinkingProcess?: string;
+  notes?: string;
   locale: string;
   sendResultButtonText: string;
 }
@@ -13,7 +15,9 @@ interface EmailResultButtonProps {
 const EmailResultButton: React.FC<EmailResultButtonProps> = ({
   ui,
   recommendations,
-  reasoning,
+  guidance,
+  thinkingProcess,
+  notes,
   locale,
   sendResultButtonText
 }) => {
@@ -34,7 +38,9 @@ const EmailResultButton: React.FC<EmailResultButtonProps> = ({
         body: JSON.stringify({
           email,
           recommendations,
-          reasoning,
+          guidance,
+          thinkingProcess,
+          notes,
           locale
         })
       });

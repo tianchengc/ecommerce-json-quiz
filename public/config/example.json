@@ -81,13 +81,11 @@
       },
       {
         "id": "q3",
-        "text": "How would you describe yourself?",
-        "type": "multi-select",
-        "options": [
-          { "id": "trait1", "text": "👤 Trait 1 - Beginner friendly" },
-          { "id": "trait2", "text": "🎓 Trait 2 - Intermediate level" },
-          { "id": "trait3", "text": "🏆 Trait 3 - Advanced user" }
-        ]
+        "text": "Any comments or notes to help us personalize your results?",
+        "type": "textarea",
+        "placeholder": "Add constraints, goals, or questions so we can personalize your recommendations.",
+        "helperText": "Optional: mention budget, use-case, likes/dislikes, or questions.",
+        "maxLength": 600
       }
     ],
     "products": [
@@ -245,13 +243,11 @@
       },
       {
         "id": "q3",
-        "text": "Comment vous décririez-vous ?",
-        "type": "multi-select",
-        "options": [
-          { "id": "trait1", "text": "👤 Trait 1 - Convient aux débutants" },
-          { "id": "trait2", "text": "🎓 Trait 2 - Niveau intermédiaire" },
-          { "id": "trait3", "text": "🏆 Trait 3 - Utilisateur avancé" }
-        ]
+        "text": "Des commentaires ou des notes pour personnaliser vos résultats ?",
+        "type": "textarea",
+        "placeholder": "Ajoutez vos contraintes, objectifs ou questions pour des recommandations plus personnalisees.",
+        "helperText": "Optionnel : budget, usage, gouts, choses a eviter, ou questions.",
+        "maxLength": 600
       }
     ],
     "products": [

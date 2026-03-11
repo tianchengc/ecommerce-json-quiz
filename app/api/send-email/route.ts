@@ -14,8 +14,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body.' }, { status: 400 });
   }
 
-  const { email, recommendations, reasoning, locale } = body || {};
-  if (!email || !recommendations || !reasoning || !locale) {
+  const { email, recommendations, guidance = '', thinkingProcess = '', notes = '', locale } = body || {};
+  if (!email || !recommendations || !locale) {
     return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
   }
 
@@ -33,7 +33,12 @@ export async function POST(request: Request) {
   // Build email HTML (Worker-safe, no react-dom/server)
   let emailHtml = '';
   try {
-    emailHtml = buildRecommendationEmailHtml(recommendations, reasoning, emailConfig.template || {});
+    emailHtml = buildRecommendationEmailHtml(recommendations, {
+      guidance,
+      thinkingProcess,
+      notes,
+      templateConfig: emailConfig.template || {},
+    });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to render email template.' }, { status: 500 });
   }
@@ -42,12 +47,19 @@ export async function POST(request: Request) {
   let data: any = null;
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
+    const safeFromName = String(fromName || '').replace(/[\r\n<>]/g, '').trim();
+
     data = await resend.emails.send({
-      from: `${fromName} <${fromEmail}>`,
+      from: `${safeFromName || 'Quiz Results'} <${fromEmail}>`,
       to: email,
       bcc: adminEmail,
       subject,
       html: emailHtml,
+      replyTo: adminEmail || fromEmail,
+      tags: [
+        { name: 'source', value: 'quiz-recommendation' },
+        { name: 'locale', value: String(locale) },
+      ],
     });
   } catch (error: any) {
     return NextResponse.json({ error: error?.message || 'Failed to send email.' }, { status: 500 });
